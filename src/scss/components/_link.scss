@@ -10,6 +10,12 @@
   cursor: pointer;
   transition: all 0.3s;
 
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 4px 7px;
+    border-width: 1.5px;
+  }
+
   &:hover {
     @media (any-pointer: fine) {
       border-color: $col-orange;
@@ -17,6 +23,15 @@
       background: $col-orange;
       font-weight: 500;
     }
+  }
+  
+  // Active state for touch devices
+  &:active {
+    border-color: $col-orange;
+    color: $col-black;
+    background: $col-orange;
+    font-weight: 500;
+    transform: scale(0.96);
   }
 
   .c-link {
@@ -107,10 +122,20 @@
   margin-left: 10px;
   border-color: $col-orange;
   
+  @media (max-width: 480px) {
+    margin-left: 5px;
+  }
+  
   svg {
     margin-left: 4px;
     transition: transform 0.3s ease;
     filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+    
+    @media (max-width: 480px) {
+      width: 14px;
+      height: 14px;
+      margin-left: 2px;
+    }
   }
   
   &::before {
@@ -140,13 +165,41 @@
       filter: none; // Remove filter on hover
     }
   }
+  
+  // Active state for touch devices
+  &:active {
+    color: $col-black;
+    
+    &::before {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    svg {
+      transform: translateY(3px);
+    }
+  }
+}
+
+// Enhance mobile touch experience
+@media (max-width: 768px) {
+  .nav__button {
+    min-width: 80px; // Ensure buttons are large enough for touch
+    text-align: center;
+    
+    &.contact-scroll, &.resume-button {
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
 
 @keyframes floatDownload {
-  0%, 100% {
+  0%, 20%, 80%, 100% {
     transform: translateY(0);
   }
-  
   50% {
     transform: translateY(4px);
   }

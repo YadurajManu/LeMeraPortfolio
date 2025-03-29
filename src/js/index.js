@@ -363,12 +363,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const codeSnippet = document.querySelector('.code-snippet');
   const expertiseWrapper = document.querySelector('.expertise-wrapper');
   const heroTitle = document.querySelector('.hero__title');
+  const isMobile = window.innerWidth <= 768;
+  const isSmallMobile = window.innerWidth <= 480;
   
   if (heroSection && floatingElements.length) {
-    // Create a main timeline for hero animations
+    // Create a main timeline for hero animations with optimized settings for mobile
     const heroTl = gsap.timeline({
       defaults: {
-        ease: "power2.out"
+        ease: "power2.out",
+        duration: isSmallMobile ? 0.7 : 1 // Faster animations on mobile
       }
     });
     
@@ -377,90 +380,94 @@ document.addEventListener('DOMContentLoaded', () => {
       autoAlpha: 0
     });
     
-    // Add floating elements with subtle fade in
-    heroTl.to(floatingElements, {
-      autoAlpha: 0.6, 
-      stagger: 0.1,
-      duration: 1.2,
-      delay: 0.5
-    });
+    // Add floating elements with subtle fade in (skip on small mobile for performance)
+    if (!isSmallMobile) {
+      heroTl.to(floatingElements, {
+        autoAlpha: isMobile ? 0.4 : 0.6, 
+        stagger: 0.1,
+        duration: isMobile ? 0.8 : 1.2,
+        delay: isMobile ? 0.3 : 0.5
+      });
+    }
     
     // Add expertise section
     heroTl.to(expertiseWrapper, {
       autoAlpha: 1,
       y: 0,
-      duration: 0.8,
-      delay: 0.2
-    }, "-=0.5");
+      duration: isMobile ? 0.6 : 0.8,
+      delay: isMobile ? 0.1 : 0.2
+    }, "-=0.3");
     
     // Add code snippet
     heroTl.to(codeSnippet, {
       autoAlpha: 1,
       y: 0,
-      duration: 1
-    }, "-=0.3");
+      duration: isMobile ? 0.8 : 1
+    }, "-=0.2");
     
-    // Enhanced parallax on scroll with smoother animations
-    ScrollTrigger.create({
-      trigger: heroSection,
-      start: 'top top',
-      end: 'bottom top',
-      scroller: "[data-scroll-container]",
-      onUpdate: (self) => {
-        const scrollProgress = self.progress;
-        
-        // Apply different parallax rates to floating elements
-        floatingElements.forEach((element, index) => {
-          const depth = index * 0.2 + 0.5; // Different depths for each element
-          const yMove = scrollProgress * 100 * depth;
-          const xMove = (index % 2 === 0) ? scrollProgress * 30 : scrollProgress * -30;
-          const rotate = (index % 2 === 0) ? scrollProgress * 15 : scrollProgress * -15;
+    // Enhanced parallax on scroll with performance optimizations for mobile
+    if (!isSmallMobile) { // Skip heavy animations on small mobile for better performance
+      ScrollTrigger.create({
+        trigger: heroSection,
+        start: 'top top',
+        end: 'bottom top',
+        scroller: "[data-scroll-container]",
+        onUpdate: (self) => {
+          const scrollProgress = self.progress;
           
-          gsap.to(element, {
-            y: yMove,
-            x: xMove,
-            rotate: rotate,
-            opacity: Math.max(0, 0.6 - scrollProgress * 1.2), // Fade out as user scrolls
-            duration: 0.3,
-            ease: "power1.out",
-            overwrite: 'auto'
+          // Apply different parallax rates to floating elements
+          floatingElements.forEach((element, index) => {
+            const depth = index * 0.2 + 0.5; // Different depths for each element
+            const yMove = scrollProgress * (isMobile ? 50 : 100) * depth;
+            const xMove = (index % 2 === 0) ? scrollProgress * (isMobile ? 15 : 30) : scrollProgress * (isMobile ? -15 : -30);
+            const rotate = (index % 2 === 0) ? scrollProgress * (isMobile ? 8 : 15) : scrollProgress * (isMobile ? -8 : -15);
+            
+            gsap.to(element, {
+              y: yMove,
+              x: xMove,
+              rotate: rotate,
+              opacity: Math.max(0, (isMobile ? 0.4 : 0.6) - scrollProgress * 1.2),
+              duration: isMobile ? 0.2 : 0.3,
+              ease: "power1.out",
+              overwrite: 'auto'
+            });
           });
-        });
-        
-        // Move title up slightly for parallax effect
-        if (heroTitle) {
-          gsap.to(heroTitle, {
-            y: -scrollProgress * 80,
-            duration: 0.3,
-            ease: "power1.out",
-            overwrite: 'auto'
-          });
+          
+          // Move title up slightly for parallax effect
+          if (heroTitle) {
+            gsap.to(heroTitle, {
+              y: -scrollProgress * (isMobile ? 40 : 80),
+              duration: isMobile ? 0.2 : 0.3,
+              ease: "power1.out",
+              overwrite: 'auto'
+            });
+          }
+          
+          // Parallax for code snippet with improved animation
+          if (codeSnippet) {
+            gsap.to(codeSnippet, {
+              y: scrollProgress * (isMobile ? 30 : 60),
+              scale: Math.max(isMobile ? 0.8 : 0.85, (isMobile ? 0.9 : 0.95) - scrollProgress * 0.15),
+              opacity: Math.max(0, 1 - scrollProgress * 2.5),
+              duration: isMobile ? 0.2 : 0.3,
+              ease: "power1.out",
+              overwrite: 'auto'
+            });
+          }
+          
+          // Adjust expertise wrapper on scroll
+          if (expertiseWrapper) {
+            gsap.to(expertiseWrapper, {
+              y: scrollProgress * (isMobile ? 20 : 40),
+              opacity: Math.max(0, 1 - scrollProgress * 2), 
+              duration: isMobile ? 0.2 : 0.3,
+              ease: "power1.out",
+              overwrite: 'auto'
+            });
+          }
         }
-        
-        // Parallax for code snippet with improved animation
-        if (codeSnippet) {
-          gsap.to(codeSnippet, {
-            y: scrollProgress * 60,
-            scale: Math.max(0.85, 0.95 - scrollProgress * 0.15), // Smoothly scale down
-            opacity: Math.max(0, 1 - scrollProgress * 2.5), // Fade out faster than movement
-            duration: 0.3,
-            ease: "power1.out",
-            overwrite: 'auto'
-          });
-        }
-        
-        // Adjust expertise wrapper on scroll
-        if (expertiseWrapper) {
-          gsap.to(expertiseWrapper, {
-            y: scrollProgress * 40,
-            opacity: Math.max(0, 1 - scrollProgress * 2), 
-            duration: 0.3,
-            ease: "power1.out",
-            overwrite: 'auto'
-          });
-        }
-      }
-    });
+      });
+    }
   }
   
   // Staggered text reveal for hero titles with improved animation
@@ -471,8 +478,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Initial setup - hide all letters
       gsap.set(heroLetters, { 
         opacity: 0, 
-        y: 20,
-        rotationX: 40, // Add 3D rotation for more interesting reveal
+        y: isMobile ? 10 : 20,
+        rotationX: isMobile ? 20 : 40, // Less 3D effect on mobile for better performance
         transformOrigin: "50% 100%" 
       });
       
@@ -481,10 +488,10 @@ document.addEventListener('DOMContentLoaded', () => {
         opacity: 1,
         y: 0,
         rotationX: 0,
-        duration: 1,
-        stagger: 0.06,
+        duration: isMobile ? 0.7 : 1,
+        stagger: isMobile ? 0.04 : 0.06,
         ease: "power3.out",
-        delay: 0.5
+        delay: isMobile ? 0.3 : 0.5
       });
     }
   };
@@ -513,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.to(currentText, {
           opacity: 0,
           y: -20,
-          duration: 0.4,
+          duration: isMobile ? 0.3 : 0.4,
           ease: "power2.in",
           onComplete: () => {
             currentText.classList.remove('active');
@@ -527,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gsap.to(nextText, {
               y: 0,
               opacity: 1,
-              duration: 0.5,
+              duration: isMobile ? 0.4 : 0.5,
               ease: "back.out(1.2)"
             });
           }
@@ -539,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.set(morphTexts[0], { opacity: 1, y: 0 });
       
       // Start the interval (slightly faster for better effect)
-      setInterval(morphText, 2500);
+      setInterval(morphText, isMobile ? 2000 : 2500);
     }
   };
   
@@ -547,7 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
   startMorphingAnimation();
   
   // Add subtle hover interaction to code snippet
-  if (codeSnippet) {
+  if (codeSnippet && !isMobile) { // Skip hover effects on mobile
     codeSnippet.addEventListener('mouseenter', () => {
       gsap.to(codeSnippet, {
         scale: 0.98,
@@ -566,6 +573,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+  
+  // Handle resize events to update mobile detection
+  window.addEventListener('resize', () => {
+    const newIsMobile = window.innerWidth <= 768;
+    const newIsSmallMobile = window.innerWidth <= 480;
+    
+    if (newIsMobile !== isMobile || newIsSmallMobile !== isSmallMobile) {
+      // Reload page to apply correct mobile optimizations
+      // This is a simple approach; a more sophisticated one would
+      // be to update all the animations without reload
+      location.reload();
+    }
+  });
 });
 
 export default class Home {
