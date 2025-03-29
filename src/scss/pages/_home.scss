@@ -115,11 +115,13 @@
         }
 
         .hero__hover {
-          transition: color 0.2s;
+          transition: transform 0.2s, color 0.2s;
 
           @media (any-pointer: fine) {
             &:hover {
               color: $col-gray;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+              transform: translateZ(20px);
             }
           }
         }
@@ -130,6 +132,13 @@
           display: inline-block;
           @extend %title-328;
           letter-spacing: -0.105em;
+          transform-style: preserve-3d;
+          perspective: 1000px;
+          transition: transform 0.3s ease;
+          
+          &:hover {
+            transform: rotateY(10deg);
+          }
         }
 
         &__dash {

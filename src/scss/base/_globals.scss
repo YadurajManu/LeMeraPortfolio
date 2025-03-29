@@ -21,6 +21,7 @@ body {
   font-size: 1.6rem;
   background: $col-black;
   color: $col-gray;
+  cursor: none;
 }
 
 // Locomotive
@@ -88,5 +89,118 @@ html.has-scroll-dragging {
 @keyframes blinker {
   50% {
     opacity: 0;
+  }
+}
+
+// Enhanced custom cursor
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  
+  &__ball {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    
+    &--small {
+      width: 8px;
+      height: 8px;
+      background-color: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    
+    &--big {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      opacity: 0.3;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+  }
+}
+
+// Enhanced interactive elements
+.c-button, .contact-scroll, .email, a, .hero__hover {
+  cursor: none;
+  position: relative;
+  
+  &:hover {
+    ~ .custom-cursor {
+      .custom-cursor__ball--big {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0.6;
+        border-color: $col-orange;
+      }
+      
+      .custom-cursor__ball--small {
+        opacity: 0;
+      }
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: $col-orange;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1; // Lower z-index to avoid interfering with cursor
+      animation: enhancedPulse 1.2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+  }
+}
+
+// Special effect for the hero text hover
+.hero__hover {
+  &:hover {
+    ~ .custom-cursor {
+      .custom-cursor__ball--big {
+        transform: translate(-50%, -50%) scale(0.5);
+        border-width: 2px;
+        background-color: rgba(203, 69, 12, 0.2);
+      }
+    }
+  }
+}
+
+// Special effect for buttons
+.c-button {
+  &:hover {
+    ~ .custom-cursor {
+      .custom-cursor__ball--big {
+        border-radius: 14px;
+        transform: translate(-50%, -50%) scale(1.2) rotate(15deg);
+      }
+    }
+  }
+}
+
+@keyframes enhancedPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.7);
+    box-shadow: 0 0 0 0 rgba(203, 69, 12, 0.7);
+    opacity: 1;
+  }
+  
+  70% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 10px rgba(203, 69, 12, 0);
+    opacity: 0.7;
+  }
+  
+  100% {
+    transform: translate(-50%, -50%) scale(0.7);
+    box-shadow: 0 0 0 0 rgba(203, 69, 12, 0);
+    opacity: 1;
   }
 }
