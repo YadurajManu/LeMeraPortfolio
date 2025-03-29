@@ -356,6 +356,218 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Implement layered parallax effect for hero elements
+document.addEventListener('DOMContentLoaded', () => {
+  const heroSection = document.querySelector('.home__hero');
+  const floatingElements = document.querySelectorAll('.floating-element');
+  const codeSnippet = document.querySelector('.code-snippet');
+  const expertiseWrapper = document.querySelector('.expertise-wrapper');
+  const heroTitle = document.querySelector('.hero__title');
+  
+  if (heroSection && floatingElements.length) {
+    // Create a main timeline for hero animations
+    const heroTl = gsap.timeline({
+      defaults: {
+        ease: "power2.out"
+      }
+    });
+    
+    // Fade in elements with staggered timing for a smoother intro
+    gsap.set([floatingElements, codeSnippet, expertiseWrapper], { 
+      autoAlpha: 0
+    });
+    
+    // Add floating elements with subtle fade in
+    heroTl.to(floatingElements, {
+      autoAlpha: 0.6, 
+      stagger: 0.1,
+      duration: 1.2,
+      delay: 0.5
+    });
+    
+    // Add expertise section
+    heroTl.to(expertiseWrapper, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.8,
+      delay: 0.2
+    }, "-=0.5");
+    
+    // Add code snippet
+    heroTl.to(codeSnippet, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 1
+    }, "-=0.3");
+    
+    // Enhanced parallax on scroll with smoother animations
+    ScrollTrigger.create({
+      trigger: heroSection,
+      start: 'top top',
+      end: 'bottom top',
+      scroller: "[data-scroll-container]",
+      onUpdate: (self) => {
+        const scrollProgress = self.progress;
+        
+        // Apply different parallax rates to floating elements
+        floatingElements.forEach((element, index) => {
+          const depth = index * 0.2 + 0.5; // Different depths for each element
+          const yMove = scrollProgress * 100 * depth;
+          const xMove = (index % 2 === 0) ? scrollProgress * 30 : scrollProgress * -30;
+          const rotate = (index % 2 === 0) ? scrollProgress * 15 : scrollProgress * -15;
+          
+          gsap.to(element, {
+            y: yMove,
+            x: xMove,
+            rotate: rotate,
+            opacity: Math.max(0, 0.6 - scrollProgress * 1.2), // Fade out as user scrolls
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: 'auto'
+          });
+        });
+        
+        // Move title up slightly for parallax effect
+        if (heroTitle) {
+          gsap.to(heroTitle, {
+            y: -scrollProgress * 80,
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: 'auto'
+          });
+        }
+        
+        // Parallax for code snippet with improved animation
+        if (codeSnippet) {
+          gsap.to(codeSnippet, {
+            y: scrollProgress * 60,
+            scale: Math.max(0.85, 0.95 - scrollProgress * 0.15), // Smoothly scale down
+            opacity: Math.max(0, 1 - scrollProgress * 2.5), // Fade out faster than movement
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: 'auto'
+          });
+        }
+        
+        // Adjust expertise wrapper on scroll
+        if (expertiseWrapper) {
+          gsap.to(expertiseWrapper, {
+            y: scrollProgress * 40,
+            opacity: Math.max(0, 1 - scrollProgress * 2), 
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: 'auto'
+          });
+        }
+      }
+    });
+  }
+  
+  // Staggered text reveal for hero titles with improved animation
+  const revealHeroText = () => {
+    const heroLetters = document.querySelectorAll('.hero__hover');
+    
+    if (heroLetters.length) {
+      // Initial setup - hide all letters
+      gsap.set(heroLetters, { 
+        opacity: 0, 
+        y: 20,
+        rotationX: 40, // Add 3D rotation for more interesting reveal
+        transformOrigin: "50% 100%" 
+      });
+      
+      // Staggered reveal animation
+      gsap.to(heroLetters, {
+        opacity: 1,
+        y: 0,
+        rotationX: 0,
+        duration: 1,
+        stagger: 0.06,
+        ease: "power3.out",
+        delay: 0.5
+      });
+    }
+  };
+  
+  // Run the text reveal animation
+  revealHeroText();
+  
+  // Implement morphing text animation with improved timing
+  const startMorphingAnimation = () => {
+    const morphTexts = document.querySelectorAll('.morph-text');
+    
+    if (morphTexts.length > 0) {
+      let currentIndex = 0;
+      
+      const morphText = () => {
+        // Current active text
+        const currentText = morphTexts[currentIndex];
+        
+        // Update current index
+        currentIndex = (currentIndex + 1) % morphTexts.length;
+        
+        // Next active text
+        const nextText = morphTexts[currentIndex];
+        
+        // Animate current text out
+        gsap.to(currentText, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: "power2.in",
+          onComplete: () => {
+            currentText.classList.remove('active');
+            // Immediately position next text
+            gsap.set(nextText, {
+              y: 20,
+              opacity: 0
+            });
+            nextText.classList.add('active');
+            // Animate next text in
+            gsap.to(nextText, {
+              y: 0,
+              opacity: 1,
+              duration: 0.5,
+              ease: "back.out(1.2)"
+            });
+          }
+        });
+      };
+      
+      // Set first item as active initially
+      morphTexts[0].classList.add('active');
+      gsap.set(morphTexts[0], { opacity: 1, y: 0 });
+      
+      // Start the interval (slightly faster for better effect)
+      setInterval(morphText, 2500);
+    }
+  };
+  
+  // Start the morphing animation
+  startMorphingAnimation();
+  
+  // Add subtle hover interaction to code snippet
+  if (codeSnippet) {
+    codeSnippet.addEventListener('mouseenter', () => {
+      gsap.to(codeSnippet, {
+        scale: 0.98,
+        duration: 0.3,
+        ease: "power2.out",
+        boxShadow: "0 15px 35px rgba(0, 0, 0, 0.35)"
+      });
+    });
+    
+    codeSnippet.addEventListener('mouseleave', () => {
+      gsap.to(codeSnippet, {
+        scale: 0.95,
+        duration: 0.5,
+        ease: "power2.out",
+        boxShadow: "0 12px 28px rgba(0, 0, 0, 0.25)"
+      });
+    });
+  }
+});
+
 export default class Home {
   constructor(scroll) {
     this.locomotive = scroll;

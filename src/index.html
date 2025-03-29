@@ -127,11 +127,14 @@
 
       <section class="home__hero">
         <div class="hero__title">
+          <!-- Mobile title -->
           <h1 class="mobile">
             iOS <br />
-             <br />
+            <br />
             DEVELOPER
           </h1>
+          
+          <!-- Desktop title top section -->
           <h1 class="hero__title__top overflow desktop">
             <div class="hero__title__top" title-overflow>
               <span
@@ -141,25 +144,26 @@
                 data-scroll-position="top"
                 data-scroll-speed="7"
               >
-                <span class="hero__hover">I</span>
-                <span class="hero__hover">O</span>
-                <span class="hero__hover">S</span>
+                <span class="morph-wrapper">
+                  <span class="morph-text active">iOS</span>
+                  <span class="morph-text">Swift</span>
+                  <span class="morph-text"></span>
+                  <span class="morph-text">UI/UX</span>
+                </span>
               </span>
               <span class="hero__title__dash desktop" style="display: none;"></span>
               <span class="hero__title__dash tablet" style="display: none;"></span>
-
               <span
                 class="hero__title__right"
                 data-scroll=""
                 data-scroll-direction="horizontal"
                 data-scroll-position="top"
                 data-scroll-speed="-7"
-              >
-                
-              </span>
+              ></span>
             </div>
           </h1>
 
+          <!-- Desktop title bottom section -->
           <span class="hero__title__bottom overflow">
             <div class="hero__title__bottom">
               <h1 class="bottom__left desktop" title-overflow>
@@ -173,7 +177,10 @@
                 <span class="hero__hover">E</span>
                 <span class="hero__hover">R</span>
               </h1>
+              
+              <!-- Right content area -->
               <div class="bottom__right">
+                <!-- About paragraph -->
                 <p class="hero__paragraph">
                   <span class="first-word">About</span> &nbsp; I am a developer
                   based in Dehradun, India specializing in iOS app development,
@@ -182,37 +189,53 @@
                   technologies and frameworks to deliver seamless user experiences
                   across mobile and web platforms.
                 </p>
+                
+                <!-- Expertise rotating text -->
+                <div class="expertise-wrapper">
+                  <span class="expertise-label">Expert in:</span>
+                  <div class="rotating-text">
+                    <span class="rotating-text__item">iOS Development</span>
+                    <span class="rotating-text__item">Swift & SwiftUI</span>
+                    <span class="rotating-text__item">Machine Learning</span>
+                    <span class="rotating-text__item">Web Animation</span>
+                  </div>
+                </div>
+                
+                <!-- Code snippet -->
+                <div class="code-snippet">
+                  <div class="code-header">
+                    <span class="code-dot"></span>
+                    <span class="code-dot"></span>
+                    <span class="code-dot"></span>
+                    <span class="code-title">SwiftUI.swift</span>
+                  </div>
+                  <pre class="code-content"><code><span class="code-keyword">struct</span> <span class="code-class">PortfolioView</span>: <span class="code-class">View</span> {
+    <span class="code-keyword">var</span> <span class="code-property">body</span>: <span class="code-keyword">some</span> <span class="code-class">View</span> {
+        <span class="code-class">VStack</span>(alignment: .<span class="code-property">leading</span>) {
+            <span class="code-class">Text</span>(<span class="code-string">"Hello, I'm Yaduraj"</span>)
+                .<span class="code-property">font</span>(.<span class="code-property">title</span>)
+                .<span class="code-property">fontWeight</span>(.<span class="code-property">bold</span>)
+            <span class="code-class">Text</span>(<span class="code-string">"iOS Developer"</span>)
+                .<span class="code-property">foregroundColor</span>(.<span class="code-property">secondary</span>)
+        }
+    }
+}</code></pre>
+                </div>
+                
+                <!-- Scroll down indicator -->
                 <div class="hero__scroll">
                   <p>Scroll down</p>
                   <div class="c-infinite">
                     <span class="c-link">
                       <span class="c-link__inner">
                         <span>
-                          <svg
-                            width="20"
-                            height="21"
-                            viewBox="0 0 20 21"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M10.8333 13.9766L15.3033 9.50658L16.4816 10.6849L9.99998 17.1666L3.51831 10.6849L4.69664 9.50658L9.16664 13.9766V3.83325H10.8333V13.9766Z"
-                              fill="#777777"
-                            />
+                          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.8333 13.9766L15.3033 9.50658L16.4816 10.6849L9.99998 17.1666L3.51831 10.6849L4.69664 9.50658L9.16664 13.9766V3.83325H10.8333V13.9766Z" fill="#777777"/>
                           </svg>
                         </span>
                         <span class="c-link__animated">
-                          <svg
-                            width="20"
-                            height="21"
-                            viewBox="0 0 20 21"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M10.8333 13.9766L15.3033 9.50658L16.4816 10.6849L9.99998 17.1666L3.51831 10.6849L4.69664 9.50658L9.16664 13.9766V3.83325H10.8333V13.9766Z"
-                              fill="#777777"
-                            />
+                          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.8333 13.9766L15.3033 9.50658L16.4816 10.6849L9.99998 17.1666L3.51831 10.6849L4.69664 9.50658L9.16664 13.9766V3.83325H10.8333V13.9766Z" fill="#777777"/>
                           </svg>
                         </span>
                       </span>
@@ -222,6 +245,42 @@
               </div>
             </div>
           </span>
+          
+          <!-- Floating background elements -->
+          <div class="floating-elements">
+            <div class="floating-element el-1">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+                <path d="M12 17V12" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1" stroke-linecap="round"/>
+                <path d="M12 9V7" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="floating-element el-2">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+                <circle cx="12" cy="12" r="4" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="floating-element el-3">
+              <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19" stroke="rgba(119, 119, 119, 0.15)" stroke-width="1" stroke-linecap="round"/>
+                <path d="M12 5V19" stroke="rgba(119, 119, 119, 0.15)" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="floating-element el-4">
+              <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="floating-element el-5">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 8.50488H22" stroke="rgba(119, 119, 119, 0.25)" stroke-width="1" stroke-linecap="round"/>
+                <path d="M2 15.5049H22" stroke="rgba(119, 119, 119, 0.25)" stroke-width="1" stroke-linecap="round"/>
+                <path d="M9.00005 3L6.00004 21" stroke="rgba(119, 119, 119, 0.25)" stroke-width="1" stroke-linecap="round"/>
+                <path d="M15 3L18 21" stroke="rgba(119, 119, 119, 0.25)" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
         </div>
       </section>
 
