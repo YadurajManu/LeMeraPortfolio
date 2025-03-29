@@ -6,87 +6,97 @@ import { mapEach } from "./utils/dom";
 // import Home from "./pages/home";
 import Time from "./components/Time";
 
-// Custom cursor initialization
-const cursor = document.querySelector('.custom-cursor');
-const cursorSmall = cursor.querySelector('.custom-cursor__ball--small');
-const cursorBig = cursor.querySelector('.custom-cursor__ball--big');
-
-let mouseX = 0;
-let mouseY = 0;
-let cursorSmallX = 0;
-let cursorSmallY = 0;
-let cursorBigX = 0;
-let cursorBigY = 0;
-
-// Set initial position off-screen to avoid flash
-gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-gsap.set(cursorSmall, { xPercent: -50, yPercent: -50 });
-gsap.set(cursorBig, { xPercent: -50, yPercent: -50 });
-
-// Track mouse position
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
-
-// Animate cursor position with some lag for smoothness
-gsap.ticker.add(() => {
-  // Calculate speed of mouse movement
-  const deltaX = mouseX - cursorSmallX;
-  const deltaY = mouseY - cursorSmallY;
-  const speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.1;
+// Custom cursor initialization with safety checks
+document.addEventListener('DOMContentLoaded', () => {
+  const cursor = document.querySelector('.custom-cursor');
   
-  // Apply different easing based on speed
-  const smallEase = 0.4;
-  const bigEase = 0.15;
-  
-  // Update small cursor with less lag
-  cursorSmallX += (mouseX - cursorSmallX) * smallEase;
-  cursorSmallY += (mouseY - cursorSmallY) * smallEase;
-  
-  // Update big cursor with more lag
-  cursorBigX += (mouseX - cursorBigX) * bigEase;
-  cursorBigY += (mouseY - cursorBigY) * bigEase;
-  
-  // Apply positions
-  gsap.set(cursorSmall, { x: cursorSmallX, y: cursorSmallY });
-  gsap.set(cursorBig, { x: cursorBigX, y: cursorBigY });
-  
-  // Scale big cursor based on mouse speed
-  if (speed > 1) {
-    gsap.to(cursorBig, { 
-      duration: 0.3, 
-      scale: 1 + speed * 0.05,
-      ease: "sine.out" 
+  if (cursor) {
+    const cursorSmall = cursor.querySelector('.custom-cursor__ball--small');
+    const cursorBig = cursor.querySelector('.custom-cursor__ball--big');
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorSmallX = 0;
+    let cursorSmallY = 0;
+    let cursorBigX = 0;
+    let cursorBigY = 0;
+    
+    // Set initial position off-screen to avoid flash
+    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+    gsap.set(cursorSmall, { xPercent: -50, yPercent: -50 });
+    gsap.set(cursorBig, { xPercent: -50, yPercent: -50 });
+    
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     });
-  } else {
-    gsap.to(cursorBig, { 
-      duration: 0.6, 
-      scale: 1,
-      ease: "power2.out" 
+    
+    // Animate cursor position with lag for smoothness
+    const cursorAnimation = () => {
+      // Calculate speed of mouse movement
+      const deltaX = mouseX - cursorSmallX;
+      const deltaY = mouseY - cursorSmallY;
+      const speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.1;
+      
+      // Apply different easing based on speed
+      const smallEase = 0.4;
+      const bigEase = 0.15;
+      
+      // Update small cursor with less lag
+      cursorSmallX += (mouseX - cursorSmallX) * smallEase;
+      cursorSmallY += (mouseY - cursorSmallY) * smallEase;
+      
+      // Update big cursor with more lag
+      cursorBigX += (mouseX - cursorBigX) * bigEase;
+      cursorBigY += (mouseY - cursorBigY) * bigEase;
+      
+      // Apply positions
+      gsap.set(cursorSmall, { x: cursorSmallX, y: cursorSmallY });
+      gsap.set(cursorBig, { x: cursorBigX, y: cursorBigY });
+      
+      // Scale big cursor based on mouse speed
+      if (speed > 1) {
+        gsap.to(cursorBig, { 
+          duration: 0.3, 
+          scale: 1 + Math.min(speed * 0.05, 0.5), // Cap the maximum scale
+          ease: "sine.out" 
+        });
+      } else {
+        gsap.to(cursorBig, { 
+          duration: 0.6, 
+          scale: 1,
+          ease: "power2.out" 
+        });
+      }
+      
+      requestAnimationFrame(cursorAnimation);
+    };
+    
+    // Start animation loop
+    requestAnimationFrame(cursorAnimation);
+    
+    // Handle cursor state when leaving/entering window
+    document.addEventListener('mouseenter', () => {
+      gsap.to(cursor, { opacity: 1, duration: 0.3 });
+    });
+    
+    document.addEventListener('mouseleave', () => {
+      gsap.to(cursor, { opacity: 0, duration: 0.3 });
+    });
+    
+    // Enhanced button press effect
+    const buttons = document.querySelectorAll('.c-button, .email, a');
+    buttons.forEach(button => {
+      button.addEventListener('mousedown', () => {
+        gsap.to(cursorBig, { scale: 0.8, duration: 0.2, ease: "power2.out" });
+      });
+      
+      button.addEventListener('mouseup', () => {
+        gsap.to(cursorBig, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+      });
     });
   }
-});
-
-// Handle cursor state when leaving/entering window
-document.addEventListener('mouseenter', () => {
-  gsap.to(cursor, { opacity: 1, duration: 0.3 });
-});
-
-document.addEventListener('mouseleave', () => {
-  gsap.to(cursor, { opacity: 0, duration: 0.3 });
-});
-
-// Enhanced button press effect
-const buttons = document.querySelectorAll('.c-button, .email, a');
-buttons.forEach(button => {
-  button.addEventListener('mousedown', () => {
-    gsap.to(cursorBig, { scale: 0.8, duration: 0.2, ease: "power2.out" });
-  });
-  
-  button.addEventListener('mouseup', () => {
-    gsap.to(cursorBig, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-  });
 });
 
 const toContactButtons = document.querySelectorAll(".contact-scroll");
@@ -131,26 +141,36 @@ ScrollTrigger.scrollerProxy(scroll.el, {
   },
 });
 
-// Enhanced 3D text effect
-const heroTitle = document.querySelector('.hero__title');
-const iOSText = document.querySelector('.hero__title__left');
-const devText = document.querySelector('.bottom__left');
-
-if (heroTitle && iOSText && devText) {
-  // Add perspective to parent container
-  heroTitle.style.perspective = '1000px';
+// Enhanced 3D text effect with safety checks
+document.addEventListener('DOMContentLoaded', () => {
+  const heroTitle = document.querySelector('.hero__title');
+  const iOSText = document.querySelector('.hero__title__left');
+  const devText = document.querySelector('.bottom__left');
   
-  // Add initial transforms for depth
-  iOSText.style.transform = 'translateZ(0px)';
-  devText.style.transform = 'translateZ(0px)';
-  
-  // Add initial text shadow for depth
-  iOSText.style.textShadow = '0px 0px 0px rgba(119, 119, 119, 0.3)';
-  devText.style.textShadow = '0px 0px 0px rgba(119, 119, 119, 0.3)';
-  
-  // Track mouse movement across entire window for smoother effect
-  window.addEventListener('mousemove', (e) => {
-    if (isElementInViewport(heroTitle)) {
+  if (heroTitle && iOSText && devText) {
+    // Fix perspective origin
+    gsap.set(heroTitle, { 
+      perspective: '1000px',
+      transformStyle: 'preserve-3d'
+    });
+    
+    // Add initial transforms and shadows with safety checks
+    const letters = heroTitle.querySelectorAll('.hero__hover');
+    if (letters.length > 0) {
+      gsap.set(letters, { 
+        transformOrigin: 'center center -10px',
+        transformStyle: 'preserve-3d',
+        backfaceVisibility: 'hidden'
+      });
+    }
+    
+    // Track mouse movement for 3D effect
+    let isInViewport = true;
+    let rafId = null;
+    
+    const updateAnimation = (e) => {
+      if (!isInViewport) return;
+      
       const rect = heroTitle.getBoundingClientRect();
       
       // Calculate distance from center as percentage
@@ -158,109 +178,183 @@ if (heroTitle && iOSText && devText) {
       const y = (e.clientY - (rect.top + rect.height/2)) / (window.innerHeight/2);
       
       // Calculate rotation and movement values
-      const tiltX = y * 15; // Max 15 degrees tilt
-      const tiltY = -x * 15; // Max 15 degrees tilt
-      const moveX = x * 10; // Max 10px movement
-      const moveY = y * 10; // Max 10px movement
-      const shadowX = -x * 10;
-      const shadowY = -y * 10;
-      const shadowBlur = 20;
+      const tiltX = y * 10; // Reduced from 15 to 10 for subtlety
+      const tiltY = -x * 10; // Reduced from 15 to 10 for subtlety
+      const moveX = x * 8;  // Reduced from 10 to 8 for subtlety
+      const moveY = y * 8;  // Reduced from 10 to 8 for subtlety
       
-      // Apply transforms with easing
+      // Apply transforms for iOS text
       gsap.to(iOSText, {
         rotateX: tiltX,
         rotateY: tiltY,
-        translateX: moveX,
-        translateZ: 50, // Add some depth
-        textShadow: `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(119, 119, 119, 0.3)`,
+        x: moveX,
+        z: 30, // Reduced depth
+        textShadow: `${-x * 5}px ${-y * 5}px 10px rgba(119, 119, 119, 0.3)`,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
+        overwrite: 'auto'
       });
       
+      // Apply transforms for DEVELOPER text
       gsap.to(devText, {
-        rotateX: tiltX * 0.7, // Slightly less rotation for contrast
+        rotateX: tiltX * 0.7,
         rotateY: tiltY * 0.7,
-        translateX: moveX * 0.8,
-        translateZ: 30, // Less depth than iOS text
-        textShadow: `${shadowX * 0.8}px ${shadowY * 0.8}px ${shadowBlur}px rgba(119, 119, 119, 0.3)`,
+        x: moveX * 0.8,
+        z: 20, // Reduced depth
+        textShadow: `${-x * 4}px ${-y * 4}px 8px rgba(119, 119, 119, 0.3)`,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
+        overwrite: 'auto'
       });
       
-      // Add subtle hover effect to each letter
-      const letters = heroTitle.querySelectorAll('.hero__hover');
-      letters.forEach((letter, index) => {
-        const delay = index * 0.02;
-        const distance = (Math.sin(index + (Date.now() / 1000)) * 5);
-        
-        gsap.to(letter, {
-          translateZ: 20 + distance,
-          duration: 0.8,
-          delay: delay,
-          ease: "power2.out"
+      // Apply subtle letter-by-letter effect
+      if (letters.length > 0) {
+        letters.forEach((letter, index) => {
+          const delay = index * 0.01; // Reduced delay
+          const distance = (Math.sin(index + (Date.now() / 2000)) * 3); // Reduced movement and slowed oscillation
+          
+          gsap.to(letter, {
+            z: 10 + distance, // Reduced depth
+            duration: 0.8,
+            delay: delay,
+            ease: "power2.out",
+            overwrite: 'auto'
+          });
         });
-      });
-    }
-  });
-  
-  // Reset transforms when mouse leaves
-  window.addEventListener('mouseleave', () => {
-    gsap.to([iOSText, devText], {
-      rotateX: 0,
-      rotateY: 0,
-      translateX: 0,
-      translateZ: 0,
-      textShadow: '0px 0px 0px rgba(119, 119, 119, 0.3)',
-      duration: 0.7,
-      ease: "elastic.out(1, 0.5)"
+      }
+    };
+    
+    // Throttle mousemove for better performance
+    let lastMoveTime = 0;
+    window.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastMoveTime > 16) { // Roughly 60fps
+        lastMoveTime = now;
+        updateAnimation(e);
+      }
     });
     
-    // Reset letter animations
-    const letters = heroTitle.querySelectorAll('.hero__hover');
-    letters.forEach((letter) => {
-      gsap.to(letter, {
-        translateZ: 0,
-        duration: 0.5,
-        ease: "power2.out"
+    // Reset transforms when mouse leaves window
+    window.addEventListener('mouseleave', () => {
+      gsap.to([iOSText, devText], {
+        rotateX: 0,
+        rotateY: 0,
+        x: 0,
+        z: 0,
+        textShadow: '0px 0px 0px rgba(119, 119, 119, 0.3)',
+        duration: 0.7,
+        ease: "elastic.out(1, 0.5)",
+        overwrite: 'auto'
+      });
+      
+      // Reset letter animations
+      if (letters.length > 0) {
+        gsap.to(letters, {
+          z: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          overwrite: 'auto'
+        });
+      }
+    });
+    
+    // Check if element is in viewport for better performance
+    const checkVisibility = () => {
+      const rect = heroTitle.getBoundingClientRect();
+      isInViewport = (
+        rect.top >= -rect.height &&
+        rect.left >= -rect.width &&
+        rect.bottom <= (window.innerHeight + rect.height) &&
+        rect.right <= (window.innerWidth + rect.width)
+      );
+      
+      rafId = requestAnimationFrame(checkVisibility);
+    };
+    
+    // Start visibility checking
+    checkVisibility();
+    
+    // Clean up on page leave
+    window.addEventListener('beforeunload', () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    });
+    
+    // Parallax effect on scroll with safety checks
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: heroTitle,
+      start: 'top bottom',
+      end: 'bottom top',
+      scroller: "[data-scroll-container]",
+      onUpdate: (self) => {
+        const scrollProgress = self.progress;
+        const moveAmount = 30 * scrollProgress; // Reduced from 50 to 30
+        
+        gsap.to(iOSText, {
+          y: -moveAmount,
+          duration: 0.1,
+          ease: "none",
+          overwrite: 'auto'
+        });
+        
+        gsap.to(devText, {
+          y: -moveAmount * 1.2,
+          duration: 0.1,
+          ease: "none",
+          overwrite: 'auto'
+        });
+      }
+    });
+  }
+});
+
+// Fix resume button animation
+document.addEventListener('DOMContentLoaded', () => {
+  const resumeBtn = document.querySelector('.download-resume-btn');
+  const resumeSvg = document.querySelector('.download-resume-btn svg');
+  
+  if (resumeBtn && resumeSvg) {
+    // Initial state setup
+    gsap.set(resumeSvg, { y: 0 });
+    
+    // Create a clean hover animation with proper cleanup
+    resumeBtn.addEventListener('mouseenter', () => {
+      gsap.killTweensOf(resumeSvg);
+      gsap.to(resumeSvg, {
+        y: -5,
+        duration: 0.3,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+          gsap.set(resumeSvg, { y: 0 });
+        }
       });
     });
-  });
-  
-  // Helper function to check if element is visible
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= -rect.height &&
-      rect.left >= -rect.width &&
-      rect.bottom <= (window.innerHeight + rect.height) &&
-      rect.right <= (window.innerWidth + rect.width)
-    );
+    
+    // Add click animation for feedback
+    resumeBtn.addEventListener('click', () => {
+      gsap.killTweensOf(resumeSvg);
+      gsap.to(resumeSvg, {
+        scale: 0.8,
+        duration: 0.1,
+        ease: "power2.in",
+        yoyo: true,
+        repeat: 1
+      });
+      
+      // Add subtle button pulse
+      gsap.to(resumeBtn, {
+        backgroundColor: 'rgba(55, 170, 59, 0.7)',
+        duration: 0.2,
+        ease: "power2.inOut",
+        yoyo: true,
+        repeat: 1
+      });
+    });
   }
-  
-  // Add parallax effect on scroll
-  ScrollTrigger.create({
-    trigger: heroTitle,
-    start: 'top bottom',
-    end: 'bottom top',
-    scroller: "[data-scroll-container]",
-    onUpdate: (self) => {
-      const scrollProgress = self.progress;
-      const moveAmount = 50 * scrollProgress;
-      
-      gsap.to(iOSText, {
-        translateY: -moveAmount,
-        duration: 0.1,
-        ease: "none"
-      });
-      
-      gsap.to(devText, {
-        translateY: -moveAmount * 1.2, // Slightly different movement for parallax effect
-        duration: 0.1,
-        ease: "none"
-      });
-    }
-  });
-}
+});
 
 export default class Home {
   constructor(scroll) {
