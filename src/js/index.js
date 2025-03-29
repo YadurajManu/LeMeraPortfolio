@@ -5,9 +5,23 @@ import { copyText } from "./utils/index";
 import { mapEach } from "./utils/dom";
 // import Home from "./pages/home";
 import Time from "./components/Time";
+import ParticleSystem from "./particles";
 
 // Custom cursor initialization with safety checks
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize particle system with theme colors and coding/astronomy elements
+  new ParticleSystem('#particles-canvas', {
+    particleCount: window.innerWidth < 768 ? 40 : 80, // Fewer particles on mobile
+    colors: ['#777777', '#555555', '#cb450c'], // Theme colors - gray and orange
+    maxSize: 3,
+    responsive: true,
+    connectParticles: true,
+    connectionDistance: 150,
+    connectionOpacity: 0.15,
+    includeAstronomyElements: true,
+    fps: 30 // Limit FPS for better performance
+  });
+
   const cursor = document.querySelector('.custom-cursor');
   
   if (cursor) {
