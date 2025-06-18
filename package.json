@@ -16,6 +16,7 @@
     "vite": "^5.2.9"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "gsap": "^3.7.0",
     "locomotive-scroll": "^4.1.4"
   }
