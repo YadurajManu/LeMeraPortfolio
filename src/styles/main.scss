@@ -4,52 +4,88 @@
   overflow: hidden;
 
   .projects-section {
-    margin-bottom: 100px;
+    margin-bottom: 120px;
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(40px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255,77,0,0) 0%,
+        rgba(255,77,0,0.2) 50%,
+        rgba(255,77,0,0) 100%
+      );
+    }
+
+    &:last-child::after {
+      display: none;
+    }
 
     &.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .section-header {
-    margin-bottom: 60px;
-    text-align: center;
+    margin-bottom: 80px;
+    text-align: left;
+    position: relative;
+    padding-left: 40px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 20px;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4d00, #ff8700);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+      .visible & {
+        transform: scaleX(1);
+      }
+    }
 
     .section-title {
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      background: linear-gradient(45deg, #2a2a2a, #4a4a4a);
+      background: linear-gradient(90deg, #ff4d00, #ff8700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+      transform: translateX(-30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+      letter-spacing: -1px;
 
       .visible & {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
     }
 
     .section-subtitle {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       color: #666;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+      transform: translateX(-20px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+      font-weight: 500;
 
       .visible & {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
     }
   }
@@ -57,21 +93,43 @@
   .home__projects__project {
     position: relative;
     margin-bottom: 80px;
-    padding: 40px;
+    padding: 60px;
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
+    border-radius: 30px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.05);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        rgba(255,77,0,0.1) 0%,
+        rgba(255,135,0,0.05) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
-    &:last-child {
-      margin-bottom: 0;
+    &:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255,77,0,0.2);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.2),
+        0 0 30px rgba(255,77,0,0.1);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .home__projects__project__title {
+        color: #ff4d00;
+      }
     }
   }
 
@@ -96,39 +154,62 @@
   }
 
   .home__projects__project__title {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 30px;
-    line-height: 1.2;
-    color: #2a2a2a;
-    transition: all 0.3s ease;
-
-    &:hover {
-      color: #000;
-    }
+    line-height: 1.1;
+    color: #333;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
   }
 
   .project__link {
-    margin-top: 20px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
 
     .c-button {
-      display: inline-block;
-      padding: 12px 24px;
-      background: #2a2a2a;
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 30px;
+      background: linear-gradient(90deg, #ff4d00, #ff8700);
       color: #fff;
-      border-radius: 30px;
-      font-size: 1rem;
+      border-radius: 40px;
+      font-size: 1.1rem;
       font-weight: 500;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #ff8700, #ff4d00);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
 
       &:hover {
-        background: #000;
         transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255,77,0,0.2);
+
+        &::before {
+          opacity: 1;
+        }
       }
 
       .share-icon {
-        margin-left: 8px;
-        vertical-align: middle;
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover .share-icon {
+        transform: translateX(3px);
       }
     }
   }
@@ -152,20 +233,22 @@
     padding: 60px 0;
 
     .section-header {
+      padding-left: 20px;
+      
       .section-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
 
       .section-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
     }
 
     .home__projects__project {
-      padding: 30px;
+      padding: 40px 20px;
 
       .home__projects__project__title {
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
     }
   }

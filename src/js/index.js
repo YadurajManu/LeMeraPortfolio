@@ -21,96 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     includeAstronomyElements: true,
     fps: 30 // Limit FPS for better performance
   });
-
-  const cursor = document.querySelector('.custom-cursor');
-  
-  if (cursor) {
-    const cursorSmall = cursor.querySelector('.custom-cursor__ball--small');
-    const cursorBig = cursor.querySelector('.custom-cursor__ball--big');
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorSmallX = 0;
-    let cursorSmallY = 0;
-    let cursorBigX = 0;
-    let cursorBigY = 0;
-    
-    // Set initial position off-screen to avoid flash
-    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-    gsap.set(cursorSmall, { xPercent: -50, yPercent: -50 });
-    gsap.set(cursorBig, { xPercent: -50, yPercent: -50 });
-    
-    // Track mouse position
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-    
-    // Animate cursor position with lag for smoothness
-    const cursorAnimation = () => {
-      // Calculate speed of mouse movement
-      const deltaX = mouseX - cursorSmallX;
-      const deltaY = mouseY - cursorSmallY;
-      const speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.1;
-      
-      // Apply different easing based on speed
-      const smallEase = 0.4;
-      const bigEase = 0.15;
-      
-      // Update small cursor with less lag
-      cursorSmallX += (mouseX - cursorSmallX) * smallEase;
-      cursorSmallY += (mouseY - cursorSmallY) * smallEase;
-      
-      // Update big cursor with more lag
-      cursorBigX += (mouseX - cursorBigX) * bigEase;
-      cursorBigY += (mouseY - cursorBigY) * bigEase;
-      
-      // Apply positions
-      gsap.set(cursorSmall, { x: cursorSmallX, y: cursorSmallY });
-      gsap.set(cursorBig, { x: cursorBigX, y: cursorBigY });
-      
-      // Scale big cursor based on mouse speed
-      if (speed > 1) {
-        gsap.to(cursorBig, { 
-          duration: 0.3, 
-          scale: 1 + Math.min(speed * 0.05, 0.5), // Cap the maximum scale
-          ease: "sine.out" 
-        });
-      } else {
-        gsap.to(cursorBig, { 
-          duration: 0.6, 
-          scale: 1,
-          ease: "power2.out" 
-        });
-      }
-      
-      requestAnimationFrame(cursorAnimation);
-    };
-    
-    // Start animation loop
-    requestAnimationFrame(cursorAnimation);
-    
-    // Handle cursor state when leaving/entering window
-    document.addEventListener('mouseenter', () => {
-      gsap.to(cursor, { opacity: 1, duration: 0.3 });
-    });
-    
-    document.addEventListener('mouseleave', () => {
-      gsap.to(cursor, { opacity: 0, duration: 0.3 });
-    });
-    
-    // Enhanced button press effect
-    const buttons = document.querySelectorAll('.c-button, .email, a');
-    buttons.forEach(button => {
-      button.addEventListener('mousedown', () => {
-        gsap.to(cursorBig, { scale: 0.8, duration: 0.2, ease: "power2.out" });
-      });
-      
-      button.addEventListener('mouseup', () => {
-        gsap.to(cursorBig, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-      });
-    });
-  }
 });
 
 const toContactButtons = document.querySelectorAll(".contact-scroll");
@@ -598,6 +508,33 @@ document.addEventListener('DOMContentLoaded', () => {
       // This is a simple approach; a more sophisticated one would
       // be to update all the animations without reload
       location.reload();
+    }
+  });
+});
+
+// Button click microinteraction
+document.querySelectorAll('.c-button').forEach(btn => {
+  btn.addEventListener('mousedown', () => {
+    gsap.to(btn, { scale: 0.95, duration: 0.1, ease: "power1.out" });
+  });
+  btn.addEventListener('mouseup', () => {
+    gsap.to(btn, { scale: 1, duration: 0.2, ease: "elastic.out(1, 0.4)" });
+  });
+  btn.addEventListener('mouseleave', () => {
+    gsap.to(btn, { scale: 1, duration: 0.2, ease: "power1.out" });
+  });
+});
+
+// Section fade-in on scroll
+gsap.utils.toArray('.fade-section').forEach(section => {
+  gsap.from(section, {
+    opacity: 0,
+    y: 40,
+    duration: 1,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 80%",
+      toggleActions: "play none none none"
     }
   });
 });

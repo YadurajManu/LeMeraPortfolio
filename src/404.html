@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 Not Found | Yaduraj Singh Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="scss/index.scss" />
+  <style>
+    body {
+      background: #111111;
+      color: #aaaaaa;
+      font-family: 'Open Sauce', 'Bebas Neue', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .particles-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .floating-element {
+      position: absolute;
+      will-change: transform;
+      filter: blur(0.5px);
+      animation: float 18s ease-in-out infinite;
+    }
+    .el-1 { top: 10%; left: 8%; animation-duration: 15s; }
+    .el-2 { top: 30%; right: 12%; animation-duration: 18s; }
+    .el-3 { bottom: 18%; left: 15%; animation-duration: 20s; }
+    .el-4 { top: 65%; right: 18%; animation-duration: 12s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0) rotate(0); }
+      25% { transform: translateY(-15px) translateX(10px) rotate(5deg); }
+      50% { transform: translateY(8px) translateX(-10px) rotate(-3deg); }
+      75% { transform: translateY(-5px) translateX(15px) rotate(2deg); }
+    }
+    .emoji {
+      font-size: 6rem;
+      margin-bottom: 1rem;
+      animation: bounce 1.2s infinite alternate cubic-bezier(0.66, 0, 0, 1);
+      color: #cb450c;
+      text-shadow: 0 4px 32px #cb450c44;
+    }
+    h1 {
+      font-family: 'Bebas Neue', 'Open Sauce', Arial, sans-serif;
+      font-size: 6rem;
+      margin: 0 0 1rem 0;
+      letter-spacing: 2px;
+      color: #cb450c;
+      text-shadow: 0 2px 16px #cb450c22;
+    }
+    p {
+      font-size: 1.6rem;
+      margin-bottom: 2.2rem;
+      color: #aaaaaa;
+      font-family: 'Open Sauce', Arial, sans-serif;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    a.button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(90deg, #cb450c, #ff8700);
+      color: #fff;
+      border-radius: 40px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(203,69,12,0.15);
+      letter-spacing: 1px;
+      font-family: 'Open Sauce', Arial, sans-serif;
+    }
+    a.button:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(203,69,12,0.25);
+      background: linear-gradient(90deg, #ff8700, #cb450c);
+    }
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-18px); }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 3.2rem; }
+      .emoji { font-size: 3.2rem; }
+      p { font-size: 1.1rem; }
+      a.button { font-size: 1rem; padding: 0.7rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas" class="particles-background"></canvas>
+  <div class="floating-elements">
+    <div class="floating-element el-1">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+        <path d="M12 17V12" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M12 9V7" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="floating-element el-2">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+        <circle cx="12" cy="12" r="4" stroke="rgba(119, 119, 119, 0.3)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="floating-element el-3">
+      <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12H19" stroke="rgba(119, 119, 119, 0.15)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M12 5V19" stroke="rgba(119, 119, 119, 0.15)" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="floating-element el-4">
+      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="rgba(119, 119, 119, 0.2)" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+  <div class="emoji">🚀</div>
+  <h1>404</h1>
+  <p>Oops! The page you're looking for took a detour through space.<br>Let's get you back to safety.</p>
+  <div id="timer-message" style="margin-bottom:1.5rem;font-size:1.1rem;color:#cb450c;"></div>
+  <a href="/" class="button" id="back-home-btn">Back to Home</a>
+  <button id="cancel-redirect" style="display:none;margin-top:1.2rem;background:none;border:none;color:#aaaaaa;font-size:1rem;cursor:pointer;text-decoration:underline;">Cancel Redirect</button>
+  <script src="js/particles.js"></script>
+  <script>
+    // Initialize the particle system for the 404 page
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.ParticleSystem) {
+        new window.ParticleSystem('#particles-canvas', {
+          particleCount: window.innerWidth < 768 ? 30 : 60,
+          colors: ['#777777', '#555555', '#cb450c'],
+          maxSize: 3,
+          responsive: true,
+          connectParticles: true,
+          connectionDistance: 120,
+          connectionOpacity: 0.12,
+          includeAstronomyElements: true,
+          fps: 30
+        });
+      }
+
+      // Countdown timer logic
+      var seconds = 7;
+      var timerMessage = document.getElementById('timer-message');
+      var cancelBtn = document.getElementById('cancel-redirect');
+      var backHomeBtn = document.getElementById('back-home-btn');
+      var interval = null;
+      var redirectTimeout = null;
+      function updateTimer() {
+        timerMessage.textContent = `Redirecting to home in ${seconds} second${seconds !== 1 ? 's' : ''}...`;
+      }
+      function startTimer() {
+        updateTimer();
+        cancelBtn.style.display = 'inline-block';
+        interval = setInterval(function() {
+          seconds--;
+          if (seconds > 0) {
+            updateTimer();
+          } else {
+            clearInterval(interval);
+            window.location.href = '/';
+          }
+        }, 1000);
+        redirectTimeout = setTimeout(function() {
+          window.location.href = '/';
+        }, seconds * 1000);
+      }
+      function cancelRedirect() {
+        clearInterval(interval);
+        clearTimeout(redirectTimeout);
+        timerMessage.textContent = 'Auto-redirect cancelled.';
+        cancelBtn.style.display = 'none';
+      }
+      cancelBtn.addEventListener('click', cancelRedirect);
+      backHomeBtn.addEventListener('click', function() {
+        clearInterval(interval);
+        clearTimeout(redirectTimeout);
+      });
+      startTimer();
+    });
+  </script>
+</body>
+</html> 

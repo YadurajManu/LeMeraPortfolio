@@ -21,7 +21,6 @@ body {
   font-size: 1.6rem;
   background: $col-black;
   color: $col-gray;
-  cursor: none;
 }
 
 // Locomotive
@@ -98,8 +97,8 @@ html.has-scroll-dragging {
   left: 0;
   top: 0;
   pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
+  z-index: 99999;
+  mix-blend-mode: normal;
   
   &__ball {
     position: absolute;
@@ -114,6 +113,7 @@ html.has-scroll-dragging {
       border-radius: 50%;
       opacity: 0.8;
       transition: opacity 0.2s ease;
+      z-index: 99999;
     }
     
     &--big {
@@ -123,40 +123,17 @@ html.has-scroll-dragging {
       border-radius: 50%;
       opacity: 0.3;
       transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 99998;
     }
   }
 }
 
 // Enhanced interactive elements
 .c-button, .contact-scroll, .email, a, .hero__hover {
-  cursor: none;
   position: relative;
   
   &:hover {
-    ~ .custom-cursor {
-      .custom-cursor__ball--big {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 0.6;
-        border-color: $col-orange;
-      }
-      
-      .custom-cursor__ball--small {
-        opacity: 0;
-      }
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: $col-orange;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 1; // Lower z-index to avoid interfering with cursor
-      animation: enhancedPulse 1.2s infinite cubic-bezier(0.66, 0, 0, 1);
-    }
+    color: $col-orange;
   }
 }
 
