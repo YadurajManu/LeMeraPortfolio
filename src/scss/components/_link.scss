@@ -181,6 +181,12 @@
   }
 }
 
+.home__nav__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 // Enhance mobile touch experience
 @media (max-width: 768px) {
   .nav__button {
