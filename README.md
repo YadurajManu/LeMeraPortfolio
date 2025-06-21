@@ -65,3 +65,7 @@ To set up and run this project locally, follow these steps:
     ```bash
     npm run preview
     ```
+    ## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=yadurajmanu/foliov2@github)](https://gitads.dev/v1/ad-track?source=yadurajmanu/foliov2@github)
+
+
