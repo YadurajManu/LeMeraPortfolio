@@ -1,3 +1,4 @@
+<!-- GitAds-Verify: ENB2TFOVJ7Q5BPBRUDQKV6L25NY2KTIK -->
 # FolioV2 - Personal Portfolio Website
 
 ## Description
