@@ -55,6 +55,7 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log('🔍 Login attempt:', { username, passwordLength: password?.length });
     
     // Get admin user from database
     const { data: admin, error } = await supabase
@@ -64,15 +65,30 @@ app.post('/login', async (req, res) => {
       .eq('is_active', true)
       .single();
 
+    console.log('🔍 Database query result:', { 
+      found: !!admin, 
+      error: error?.message,
+      adminUser: admin ? { id: admin.id, username: admin.username, email: admin.email } : null
+    });
+
     if (error || !admin) {
+      console.log('❌ Admin user not found or database error');
       return res.render('login', { error: 'Invalid credentials' });
     }
 
     // Check password
+    console.log('🔍 Testing password against hash');
     const validPassword = await bcrypt.compare(password, admin.password_hash);
+    console.log('🔍 Password validation result:', validPassword);
+    
     if (!validPassword) {
+      console.log('❌ Password validation failed');
+      console.log('🔍 Hash in DB:', admin.password_hash);
+      console.log('🔍 Password provided:', password);
       return res.render('login', { error: 'Invalid credentials' });
     }
+
+    console.log('✅ Login successful for user:', username);
 
     // Set session
     req.session.adminId = admin.id;
@@ -86,7 +102,7 @@ app.post('/login', async (req, res) => {
 
     res.redirect('/dashboard');
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
     res.render('login', { error: 'Login failed. Please try again.' });
   }
 });
@@ -305,6 +321,57 @@ app.get('/', (req, res) => {
     res.redirect('/dashboard');
   } else {
     res.redirect('/login');
+  }
+});
+
+// Debug endpoint to check database and admin user
+app.get('/debug', async (req, res) => {
+  try {
+    // Test database connection
+    const { data: testConnection, error: connectionError } = await supabase
+      .from('admin_users')
+      .select('count(*)', { count: 'exact' });
+
+    if (connectionError) {
+      return res.json({
+        status: 'error',
+        message: 'Database connection failed',
+        error: connectionError.message
+      });
+    }
+
+    // Check if admin users exist
+    const { data: admins, error: adminError } = await supabase
+      .from('admin_users')
+      .select('id, username, email, created_at, is_active')
+      .order('created_at', { ascending: false });
+
+    if (adminError) {
+      return res.json({
+        status: 'error',
+        message: 'Failed to fetch admin users',
+        error: adminError.message
+      });
+    }
+
+    res.json({
+      status: 'success',
+      database_connected: true,
+      admin_users_count: admins.length,
+      admin_users: admins,
+      environment: {
+        has_supabase_url: !!process.env.SUPABASE_URL,
+        has_service_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+        has_session_secret: !!process.env.SESSION_SECRET,
+        node_env: process.env.NODE_ENV
+      }
+    });
+  } catch (error) {
+    res.json({
+      status: 'error',
+      message: 'Debug check failed',
+      error: error.message
+    });
   }
 });
 
