@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Portfolio</title>
+    <title>Admin Login</title>
     <style>
         * {
             margin: 0;
@@ -12,210 +12,118 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #fafafa;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            overflow: hidden;
-        }
-        
-        /* Animated background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(203, 69, 12, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(203, 69, 12, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(203, 69, 12, 0.08) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-            z-index: -1;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(1deg); }
-            66% { transform: translateY(-10px) rotate(-1deg); }
+            color: #1a1a1a;
+            line-height: 1.5;
         }
         
         .login-container {
-            background: rgba(25, 25, 25, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(203, 69, 12, 0.2);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
+            background: #ffffff;
+            padding: 3rem;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(203, 69, 12, 0.8), transparent);
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .logo {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
         
         .logo h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #cb450c, #ff6b35);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
         }
         
         .logo p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.95rem;
-            font-weight: 400;
+            color: #6b7280;
+            font-size: 0.875rem;
         }
         
         .form-group {
             margin-bottom: 1.5rem;
-            position: relative;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 0.75rem;
-            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            color: #374151;
             font-weight: 500;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.875rem;
         }
         
         .form-input {
             width: 100%;
-            padding: 1rem 1.25rem;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #1a1a1a;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
         }
         
         .form-input:focus {
             outline: none;
-            border-color: #cb450c;
-            box-shadow: 0 0 0 3px rgba(203, 69, 12, 0.1),
-                        0 0 20px rgba(203, 69, 12, 0.2);
-            transform: translateY(-1px);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: #9ca3af;
         }
         
         .login-button {
             width: 100%;
-            padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, #cb450c, #ff6b35);
+            padding: 0.75rem;
+            background: #1a1a1a;
             border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .login-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
+            transition: background-color 0.2s ease;
+            margin-top: 0.5rem;
         }
         
         .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(203, 69, 12, 0.4);
-        }
-        
-        .login-button:hover::before {
-            left: 100%;
+            background: #374151;
         }
         
         .login-button:active {
-            transform: translateY(0);
+            background: #111827;
         }
         
         .error-message {
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 0.75rem;
             margin-bottom: 1.5rem;
-            color: #fca5a5;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .error-icon {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
+            color: #dc2626;
+            font-size: 0.875rem;
         }
         
         .footer {
             text-align: center;
             margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            border-top: 1px solid #f3f4f6;
         }
         
         .footer p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.85rem;
-        }
-        
-        .version {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            color: rgba(255, 255, 255, 0.3);
+            color: #6b7280;
             font-size: 0.75rem;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 480px) {
-            .login-container {
-                margin: 1rem;
-                padding: 2rem 1.5rem;
-            }
-            
-            .logo h1 {
-                font-size: 1.75rem;
-            }
         }
         
         /* Loading state */
@@ -224,38 +132,23 @@
             pointer-events: none;
         }
         
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="logo">
-            <h1>YADURAJ</h1>
-            <p>Admin Portal</p>
+            <h1>Admin Portal</h1>
+            <p>Portfolio Management</p>
         </div>
         
         <% if (error) { %>
             <div class="error-message">
-                <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                </svg>
                 <%= error %>
             </div>
         <% } %>
@@ -268,7 +161,7 @@
                     id="username" 
                     name="username" 
                     class="form-input" 
-                    placeholder="Enter your username"
+                    placeholder="Enter username"
                     required
                     autocomplete="username"
                 >
@@ -281,7 +174,7 @@
                     id="password" 
                     name="password" 
                     class="form-input" 
-                    placeholder="Enter your password"
+                    placeholder="Enter password"
                     required
                     autocomplete="current-password"
                 >
@@ -293,11 +186,9 @@
         </form>
         
         <div class="footer">
-            <p>Portfolio Administration Panel</p>
+            <p>© 2025 Yaduraj Singh</p>
         </div>
     </div>
-    
-    <div class="version">v1.0</div>
     
     <script>
         document.getElementById('loginForm').addEventListener('submit', function() {
@@ -306,24 +197,7 @@
             btn.textContent = 'Signing in...';
         });
         
-        // Auto-focus first input
         document.getElementById('username').focus();
-        
-        // Handle form validation
-        const inputs = document.querySelectorAll('.form-input');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.style.borderColor = 'rgba(220, 38, 38, 0.5)';
-                } else {
-                    this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                }
-            });
-            
-            input.addEventListener('input', function() {
-                this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            });
-        });
     </script>
 </body>
 </html> 

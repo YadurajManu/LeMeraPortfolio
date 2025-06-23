@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submission Details - Admin Portal</title>
+    <title>Submission Details</title>
     <style>
         * {
             margin: 0;
@@ -12,76 +12,78 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.5;
         }
         
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 280px;
+            width: 240px;
             height: 100vh;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-            border-right: 1px solid rgba(203, 69, 12, 0.2);
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
             padding: 2rem 0;
             z-index: 100;
         }
         
         .logo-section {
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             margin-bottom: 3rem;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 2rem;
         }
         
         .logo-section h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #cb450c, #ff6b35);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
         .logo-section p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
+            color: #6b7280;
+            font-size: 0.75rem;
         }
         
         .nav-menu {
             list-style: none;
+            padding: 0 1rem;
         }
         
         .nav-item {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
         
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.875rem 2rem;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem 0.75rem;
+            color: #6b7280;
             text-decoration: none;
-            transition: all 0.3s ease;
-            border-right: 3px solid transparent;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .nav-link:hover,
         .nav-link.active {
-            color: #ffffff;
-            background: rgba(203, 69, 12, 0.1);
-            border-right-color: #cb450c;
+            color: #1a1a1a;
+            background: #f3f4f6;
         }
         
         .nav-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 1rem;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.75rem;
         }
         
         .main-content {
-            margin-left: 280px;
+            margin-left: 240px;
             padding: 2rem;
             min-height: 100vh;
         }
@@ -90,140 +92,159 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
         }
         
         .header-title h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
         .header-title p {
-            color: rgba(255, 255, 255, 0.6);
+            color: #6b7280;
+            font-size: 0.875rem;
         }
         
         .header-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #cb450c, #ff6b35);
-            color: white;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            background: #374151;
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #ffffff;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
+        .btn-secondary:hover {
+            border-color: #d1d5db;
+            color: #374151;
         }
         
-        .submission-detail {
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
             margin-bottom: 2rem;
         }
         
-        .detail-section {
-            margin-bottom: 2rem;
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
-        .detail-section h3 {
-            color: #cb450c;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            border-bottom: 1px solid rgba(203, 69, 12, 0.3);
-            padding-bottom: 0.5rem;
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+        }
+        
+        .section-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+        }
+        
+        .section-header p {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
         }
         
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
         
         .detail-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 1rem;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
         }
         
         .detail-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
+            color: #6b7280;
+            font-size: 0.75rem;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
             margin-bottom: 0.5rem;
         }
         
         .detail-value {
-            color: #ffffff;
-            font-size: 1rem;
+            color: #1a1a1a;
+            font-size: 0.875rem;
             word-wrap: break-word;
         }
         
-        .status-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-new {
-            background: rgba(59, 130, 246, 0.2);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        
-        .status-responded {
-            background: rgba(34, 197, 94, 0.2);
-            color: #86efac;
-            border: 1px solid rgba(34, 197, 94, 0.3);
+        .detail-value.large {
+            font-size: 1rem;
+            font-weight: 500;
         }
         
         .message-content {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            white-space: pre-wrap;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            color: #374151;
+            font-size: 0.875rem;
             line-height: 1.6;
+            white-space: pre-wrap;
         }
         
-        .status-update-form {
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+        }
+        
+        .status-new {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+        
+        .status-responded {
+            background: #f0fdf4;
+            color: #166534;
         }
         
         .form-group {
@@ -232,65 +253,99 @@
         
         .form-label {
             display: block;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.875rem;
             margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-select, .form-textarea {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #1a1a1a;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-select {
+            padding: 0.75rem;
+        }
+        
+        .form-textarea {
+            padding: 0.75rem;
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-textarea::placeholder {
+            color: #9ca3af;
+        }
+        
+        .meta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .meta-item:last-child {
+            border-bottom: none;
+        }
+        
+        .meta-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .meta-value {
+            color: #1a1a1a;
+            font-size: 0.875rem;
             font-weight: 500;
         }
         
-        .form-select,
-        .form-textarea {
-            width: 100%;
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
             padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: #166534;
+            font-size: 0.875rem;
         }
         
-        .form-select:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: #cb450c;
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        
-        .alert-success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #86efac;
-        }
-        
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-        }
-        
-        .logout-btn {
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            color: #fca5a5;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(220, 38, 38, 0.2);
-            transform: translateY(-1px);
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
@@ -298,8 +353,8 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-section">
-            <h1>YADURAJ</h1>
-            <p>Admin Portal</p>
+            <h1>Admin Portal</h1>
+            <p>Portfolio Management</p>
         </div>
         
         <ul class="nav-menu">
@@ -328,137 +383,158 @@
         <div class="header">
             <div class="header-title">
                 <h1>Submission Details</h1>
-                <p>View and manage individual submission</p>
+                <p>Review and manage contact form submission</p>
             </div>
             <div class="header-actions">
-                <a href="/submissions" class="btn btn-secondary">← Back to Submissions</a>
-                <form method="POST" action="/logout" style="display: inline;">
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
+                <a href="/submissions" class="btn btn-secondary">← Back to List</a>
             </div>
         </div>
 
-        <!-- Alert Messages -->
-        <% if (typeof success !== 'undefined' && success) { %>
-            <div class="alert alert-success">
-                <%= success %>
-            </div>
-        <% } %>
-        
-        <% if (error) { %>
-            <div class="alert alert-error">
-                <%= error %>
+        <% if (message) { %>
+            <div class="success-message">
+                <%= message %>
             </div>
         <% } %>
 
-        <!-- Submission Details -->
-        <div class="submission-detail">
-            <div class="detail-section">
-                <h3>Contact Information</h3>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-label">Name</div>
-                        <div class="detail-value"><%= submission.name %></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Email</div>
-                        <div class="detail-value"><%= submission.email %></div>
-                    </div>
-                    <% if (submission.company) { %>
-                    <div class="detail-item">
-                        <div class="detail-label">Company/Organization</div>
-                        <div class="detail-value"><%= submission.company %></div>
-                    </div>
-                    <% } %>
-                    <div class="detail-item">
-                        <div class="detail-label">Contact Method</div>
-                        <div class="detail-value"><%= submission.contact_method %></div>
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Main Details -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Contact Information</h2>
+                    <p>Details provided by the contact</p>
+                </div>
+                <div class="section-content">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Full Name</div>
+                            <div class="detail-value large"><%= submission.name %></div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Email Address</div>
+                            <div class="detail-value">
+                                <a href="mailto:<%= submission.email %>" style="color: #3b82f6; text-decoration: none;">
+                                    <%= submission.email %>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <% if (submission.company) { %>
+                            <div class="detail-item">
+                                <div class="detail-label">Company/Organization</div>
+                                <div class="detail-value"><%= submission.company %></div>
+                            </div>
+                        <% } %>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Project Type</div>
+                            <div class="detail-value"><%= submission.project_type %></div>
+                        </div>
+                        
+                        <% if (submission.budget) { %>
+                            <div class="detail-item">
+                                <div class="detail-label">Budget</div>
+                                <div class="detail-value"><%= submission.budget %></div>
+                            </div>
+                        <% } %>
+                        
+                        <% if (submission.contact_method) { %>
+                            <div class="detail-item">
+                                <div class="detail-label">Preferred Contact Method</div>
+                                <div class="detail-value"><%= submission.contact_method %></div>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
 
-            <div class="detail-section">
-                <h3>Project Details</h3>
-                <div class="detail-grid">
+            <!-- Status & Actions -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Status & Actions</h2>
+                    <p>Manage submission status</p>
+                </div>
+                <div class="section-content">
                     <div class="detail-item">
-                        <div class="detail-label">Project Type</div>
-                        <div class="detail-value"><%= submission.project_type %></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Budget Range</div>
-                        <div class="detail-value"><%= submission.budget %></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Timeline</div>
-                        <div class="detail-value"><%= submission.timeline %></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Status</div>
+                        <div class="detail-label">Current Status</div>
                         <div class="detail-value">
                             <span class="status-badge status-<%= submission.status %>">
                                 <%= submission.status %>
                             </span>
                         </div>
                     </div>
+                    
+                    <form method="POST" action="/submission/<%= submission.id %>/update">
+                        <div class="form-group">
+                            <label for="status" class="form-label">Update Status</label>
+                            <select id="status" name="status" class="form-select">
+                                <option value="new" <%= submission.status === 'new' ? 'selected' : '' %>>New</option>
+                                <option value="responded" <%= submission.status === 'responded' ? 'selected' : '' %>>Responded</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes" class="form-label">Admin Notes</label>
+                            <textarea 
+                                id="notes" 
+                                name="notes" 
+                                class="form-textarea" 
+                                placeholder="Add internal notes about this submission..."
+                            ><%= submission.notes || '' %></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Update Submission</button>
+                    </form>
                 </div>
             </div>
-
-            <div class="detail-section">
-                <h3>Message</h3>
-                <div class="message-content"><%= submission.message %></div>
-            </div>
-
-            <div class="detail-section">
-                <h3>Submission Info</h3>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-label">Submitted</div>
-                        <div class="detail-value"><%= new Date(submission.created_at).toLocaleString() %></div>
-                    </div>
-                    <% if (submission.responded_at) { %>
-                    <div class="detail-item">
-                        <div class="detail-label">Responded</div>
-                        <div class="detail-value"><%= new Date(submission.responded_at).toLocaleString() %></div>
-                    </div>
-                    <% } %>
-                    <div class="detail-item">
-                        <div class="detail-label">IP Address</div>
-                        <div class="detail-value"><%= submission.ip_address || 'N/A' %></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">User Agent</div>
-                        <div class="detail-value"><%= submission.user_agent || 'N/A' %></div>
-                    </div>
-                </div>
-            </div>
-
-            <% if (submission.admin_notes) { %>
-            <div class="detail-section">
-                <h3>Admin Notes</h3>
-                <div class="message-content"><%= submission.admin_notes %></div>
-            </div>
-            <% } %>
         </div>
 
-        <!-- Status Update Form -->
-        <div class="status-update-form">
-            <h3 style="color: #cb450c; margin-bottom: 1.5rem;">Update Status</h3>
-            <form method="POST" action="/submission/<%= submission.id %>/status">
-                <div class="form-group">
-                    <label for="status" class="form-label">Status</label>
-                    <select id="status" name="status" class="form-select" required>
-                        <option value="new" <%= submission.status === 'new' ? 'selected' : '' %>>New</option>
-                        <option value="responded" <%= submission.status === 'responded' ? 'selected' : '' %>>Responded</option>
-                    </select>
+        <!-- Message Content -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Message</h2>
+                <p>Content of the contact form message</p>
+            </div>
+            <div class="section-content">
+                <div class="message-content">
+                    <%= submission.message || 'No message provided.' %>
                 </div>
-                
-                <div class="form-group">
-                    <label for="notes" class="form-label">Admin Notes (Optional)</label>
-                    <textarea id="notes" name="notes" class="form-textarea" placeholder="Add any internal notes about this submission..."><%= submission.admin_notes || '' %></textarea>
+            </div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Submission Metadata</h2>
+                <p>Technical details about the submission</p>
+            </div>
+            <div class="section-content">
+                <div class="meta-item">
+                    <span class="meta-label">Submitted Date</span>
+                    <span class="meta-value"><%= new Date(submission.created_at).toLocaleDateString() %></span>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">Update Status</button>
-            </form>
+                <div class="meta-item">
+                    <span class="meta-label">Submitted Time</span>
+                    <span class="meta-value"><%= new Date(submission.created_at).toLocaleTimeString() %></span>
+                </div>
+                <% if (submission.ip_address) { %>
+                    <div class="meta-item">
+                        <span class="meta-label">IP Address</span>
+                        <span class="meta-value"><%= submission.ip_address %></span>
+                    </div>
+                <% } %>
+                <% if (submission.user_agent) { %>
+                    <div class="meta-item">
+                        <span class="meta-label">User Agent</span>
+                        <span class="meta-value" style="font-size: 0.75rem; color: #6b7280;"><%= submission.user_agent %></span>
+                    </div>
+                <% } %>
+                <div class="meta-item">
+                    <span class="meta-label">Submission ID</span>
+                    <span class="meta-value">#<%= submission.id %></span>
+                </div>
+            </div>
         </div>
     </div>
 </body>

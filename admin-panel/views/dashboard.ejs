@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Admin Portal</title>
+    <title>Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -12,342 +12,328 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.5;
         }
         
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 280px;
+            width: 240px;
             height: 100vh;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-            border-right: 1px solid rgba(203, 69, 12, 0.2);
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
             padding: 2rem 0;
             z-index: 100;
         }
         
         .logo-section {
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             margin-bottom: 3rem;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 2rem;
         }
         
         .logo-section h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #cb450c, #ff6b35);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
         .logo-section p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
+            color: #6b7280;
+            font-size: 0.75rem;
         }
         
         .nav-menu {
             list-style: none;
+            padding: 0 1rem;
         }
         
         .nav-item {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
         
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.875rem 2rem;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem 0.75rem;
+            color: #6b7280;
             text-decoration: none;
-            transition: all 0.3s ease;
-            border-right: 3px solid transparent;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .nav-link:hover,
         .nav-link.active {
-            color: #ffffff;
-            background: rgba(203, 69, 12, 0.1);
-            border-right-color: #cb450c;
+            color: #1a1a1a;
+            background: #f3f4f6;
         }
         
         .nav-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 1rem;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.75rem;
         }
         
         .main-content {
-            margin-left: 280px;
+            margin-left: 240px;
             padding: 2rem;
             min-height: 100vh;
         }
         
         .header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
         }
         
         .header-title h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
         .header-title p {
-            color: rgba(255, 255, 255, 0.6);
+            color: #6b7280;
+            font-size: 0.875rem;
         }
         
-        .user-info {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
         
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
         .logout-btn {
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            color: #fca5a5;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #6b7280;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: 6px;
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .logout-btn:hover {
-            background: rgba(220, 38, 38, 0.2);
-            transform: translateY(-1px);
+            border-color: #d1d5db;
+            color: #374151;
         }
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
         
         .stat-card {
-            background: linear-gradient(135deg, rgba(25, 25, 25, 0.9) 0%, rgba(15, 15, 15, 0.9) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: box-shadow 0.2s ease;
         }
         
         .stat-card:hover {
-            transform: translateY(-4px);
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #cb450c, #ff6b35);
-        }
-        
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(203, 69, 12, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-icon svg {
-            width: 24px;
-            height: 24px;
-            color: #cb450c;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
         .stat-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
         
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-        }
-        
-        .content-card {
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
             margin-bottom: 2rem;
         }
         
-        .card-title {
-            font-size: 1.25rem;
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+        }
+        
+        .section-header h2 {
+            font-size: 1.125rem;
             font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
         }
         
-        .view-all-btn {
-            background: rgba(203, 69, 12, 0.1);
-            border: 1px solid rgba(203, 69, 12, 0.3);
-            color: #cb450c;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        .section-header p {
+            color: #6b7280;
+            font-size: 0.875rem;
         }
         
-        .view-all-btn:hover {
-            background: rgba(203, 69, 12, 0.2);
-            transform: translateY(-1px);
+        .section-content {
+            padding: 0;
         }
         
         .submission-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: between;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s ease;
         }
         
         .submission-item:last-child {
             border-bottom: none;
         }
         
-        .submission-info h4 {
+        .submission-item:hover {
+            background: #fafafa;
+        }
+        
+        .submission-info h3 {
+            font-size: 0.875rem;
             font-weight: 600;
+            color: #1a1a1a;
             margin-bottom: 0.25rem;
         }
         
+        .submission-info p {
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+        
         .submission-meta {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #6b7280;
+            font-size: 0.75rem;
         }
         
         .status-badge {
             padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            border-radius: 12px;
+            font-size: 0.625rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         .status-new {
-            background: rgba(59, 130, 246, 0.1);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: #eff6ff;
+            color: #1d4ed8;
         }
         
         .status-responded {
-            background: rgba(34, 197, 94, 0.1);
-            color: #86efac;
-            border: 1px solid rgba(34, 197, 94, 0.3);
+            background: #f0fdf4;
+            color: #166534;
         }
         
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             text-decoration: none;
-            color: #ffffff;
-            transition: all 0.3s ease;
-            display: block;
+            font-weight: 500;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
         }
         
-        .action-btn:hover {
-            background: rgba(203, 69, 12, 0.1);
-            border-color: rgba(203, 69, 12, 0.3);
-            transform: translateY(-2px);
+        .btn-primary {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            background: #374151;
+        }
+        
+        .btn-secondary {
+            background: #ffffff;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #d1d5db;
+            color: #374151;
         }
         
         .empty-state {
             text-align: center;
-            padding: 3rem 1rem;
-            color: rgba(255, 255, 255, 0.6);
+            padding: 3rem 1.5rem;
+            color: #6b7280;
         }
         
-        .empty-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 1rem;
-            opacity: 0.3;
+        .empty-state h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
         }
         
-        /* Responsive design */
-        @media (max-width: 1024px) {
+        .empty-state p {
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s ease;
             }
             
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
             }
             
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
             
-            .header {
+            .submission-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="sidebar">
+    <!-- Sidebar -->
+    <div class="sidebar">
         <div class="logo-section">
-            <h1>YADURAJ</h1>
-            <p>Admin Portal</p>
+            <h1>Admin Portal</h1>
+            <p>Portfolio Management</p>
         </div>
         
         <ul class="nav-menu">
@@ -362,129 +348,89 @@
             <li class="nav-item">
                 <a href="/submissions" class="nav-link">
                     <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
                     </svg>
                     Submissions
                 </a>
             </li>
         </ul>
-    </nav>
-    
-    <main class="main-content">
-        <header class="header">
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
             <div class="header-title">
                 <h1>Dashboard</h1>
-                <p>Welcome back, <%= username %>! Here's your portfolio overview.</p>
+                <p>Overview of your portfolio submissions</p>
             </div>
-            <div class="user-info">
-                <form action="/logout" method="POST" style="display: inline;">
-                    <button type="submit" class="logout-btn">Logout</button>
+            <div class="header-actions">
+                <div class="user-info">
+                    Welcome, <%= username %>
+                </div>
+                <form method="POST" action="/logout" style="display: inline;">
+                    <button type="submit" class="logout-btn">Sign Out</button>
                 </form>
             </div>
-        </header>
-        
-        <% if (error) { %>
-            <div class="error-message" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #fca5a5;">
-                <%= error %>
-            </div>
-        <% } %>
-        
+        </div>
+
+        <!-- Statistics -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm7 5a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="stat-value"><%= stats.total || 0 %></div>
+                <div class="stat-value"><%= stats.total %></div>
                 <div class="stat-label">Total Submissions</div>
             </div>
-            
             <div class="stat-card">
-                <div class="stat-icon">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="stat-value"><%= stats.thisMonth || 0 %></div>
+                <div class="stat-value"><%= stats.thisMonth %></div>
                 <div class="stat-label">This Month</div>
             </div>
-            
             <div class="stat-card">
-                <div class="stat-icon">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="stat-value"><%= stats.responded || 0 %></div>
+                <div class="stat-value"><%= stats.responded %></div>
                 <div class="stat-label">Responded</div>
             </div>
-            
             <div class="stat-card">
-                <div class="stat-icon">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="stat-value"><%= stats.pending || 0 %></div>
+                <div class="stat-value"><%= stats.pending %></div>
                 <div class="stat-label">Pending</div>
             </div>
         </div>
-        
-        <div class="content-grid">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2 class="card-title">Recent Submissions</h2>
-                    <a href="/submissions" class="view-all-btn">View All</a>
-                </div>
-                
+
+        <!-- Recent Submissions -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Recent Submissions</h2>
+                <p>Latest contact form submissions</p>
+            </div>
+            <div class="section-content">
                 <% if (submissions && submissions.length > 0) { %>
-                    <% submissions.forEach(submission => { %>
+                    <% submissions.forEach(function(submission) { %>
                         <div class="submission-item">
                             <div class="submission-info">
-                                <h4><%= submission.name %></h4>
-                                <div class="submission-meta">
-                                    <%= submission.email %> • 
-                                    <%= submission.project_type || 'No type specified' %> • 
-                                    <%= new Date(submission.created_at).toLocaleDateString() %>
-                                </div>
+                                <h3><%= submission.name %></h3>
+                                <p><%= submission.email %> • <%= submission.project_type %></p>
                             </div>
-                            <span class="status-badge status-<%= submission.status %>">
-                                <%= submission.status %>
-                            </span>
+                            <div class="submission-meta">
+                                <span class="status-badge status-<%= submission.status %>">
+                                    <%= submission.status %>
+                                </span>
+                                <span><%= new Date(submission.created_at).toLocaleDateString() %></span>
+                                <a href="/submission/<%= submission.id %>" class="btn btn-secondary">View</a>
+                            </div>
                         </div>
-                    <% }) %>
+                    <% }); %>
                 <% } else { %>
                     <div class="empty-state">
-                        <svg class="empty-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"/>
-                        </svg>
                         <h3>No submissions yet</h3>
-                        <p>Contact form submissions will appear here</p>
+                        <p>Contact form submissions will appear here when received.</p>
                     </div>
                 <% } %>
             </div>
-            
-            <div class="content-card">
-                <div class="card-header">
-                    <h2 class="card-title">Quick Actions</h2>
-                </div>
-                
-                <div class="quick-actions">
-                    <a href="/submissions" class="action-btn">
-                        📋<br>
-                        <strong>View All Submissions</strong>
-                    </a>
-                    
-                    <a href="/submissions?status=new" class="action-btn">
-                        🔔<br>
-                        <strong>Pending Responses</strong>
-                    </a>
-                </div>
-            </div>
         </div>
-    </main>
+
+        <% if (submissions && submissions.length > 0) { %>
+            <div style="text-align: center;">
+                <a href="/submissions" class="btn btn-primary">View All Submissions</a>
+            </div>
+        <% } %>
+    </div>
 </body>
-</html>
+</html> 
