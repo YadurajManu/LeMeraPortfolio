@@ -80,6 +80,98 @@ const validateEmailConfig = () => {
   return true;
 };
 
+// Auto-reply email template for users
+const createAutoReplyHTML = (data) => {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thank you for contacting me!</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f5f5f5; }
+            .container { max-width: 600px; margin: 0 auto; background: white; }
+            .header { background: linear-gradient(135deg, #cb450c, #ff6b35); padding: 40px 30px; text-align: center; }
+            .header h1 { color: white; margin: 0; font-size: 28px; font-weight: 600; }
+            .header p { color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px; }
+            .content { padding: 40px 30px; }
+            .greeting { font-size: 18px; color: #2c3e50; margin-bottom: 20px; }
+            .message { font-size: 16px; line-height: 1.6; margin-bottom: 30px; }
+            .next-steps { background: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #cb450c; margin: 30px 0; }
+            .next-steps h3 { margin: 0 0 15px 0; color: #2c3e50; font-size: 18px; }
+            .next-steps ul { margin: 0; padding-left: 20px; }
+            .next-steps li { margin-bottom: 8px; color: #555; }
+            .project-info { background: #fff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0; }
+            .project-info h4 { margin: 0 0 10px 0; color: #cb450c; font-size: 16px; }
+            .contact-info { text-align: center; margin: 30px 0; }
+            .contact-info a { color: #cb450c; text-decoration: none; font-weight: 500; }
+            .footer { background: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e9ecef; }
+            .footer p { margin: 0; font-size: 14px; color: #666; }
+            .signature { margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; }
+            .signature strong { color: #2c3e50; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Thank You for Reaching Out!</h1>
+                <p>Your message has been received successfully</p>
+            </div>
+            
+            <div class="content">
+                <div class="greeting">Hi ${data.name}! 👋</div>
+                
+                <div class="message">
+                    Thank you for contacting me through my portfolio! I'm excited to learn more about your ${data.projectType || 'project'} and explore how we can work together.
+                </div>
+                
+                <div class="project-info">
+                    <h4>📋 Your Project Details:</h4>
+                    <p><strong>Project Type:</strong> ${data.projectType || 'Not specified'}</p>
+                    <p><strong>Budget Range:</strong> ${data.budget || 'Not specified'}</p>
+                </div>
+                
+                <div class="next-steps">
+                    <h3>🚀 What happens next:</h3>
+                    <ul>
+                        <li><strong>Review:</strong> I'll carefully review your message within 24 hours</li>
+                        <li><strong>Response:</strong> I'll get back to you with questions or next steps</li>
+                        <li><strong>Discovery Call:</strong> We can schedule a call to discuss your project in detail</li>
+                        <li><strong>Proposal:</strong> If it's a good fit, I'll provide a detailed proposal</li>
+                    </ul>
+                </div>
+                
+                <div class="message">
+                    I appreciate you taking the time to reach out, and I'm looking forward to potentially working together on your project!
+                </div>
+                
+                <div class="signature">
+                    <strong>Best regards,</strong><br>
+                    <strong>Yaduraj Singh</strong><br>
+                    iOS Developer<br>
+                    📱 Specialized in Swift, SwiftUI & iOS Development<br>
+                    🌍 Available for remote work worldwide
+                </div>
+                
+                <div class="contact-info">
+                    <p>
+                        <a href="mailto:yadurajsingham@gmail.com">yadurajsingham@gmail.com</a> | 
+                        <a href="https://yaduraj.me">yaduraj.me</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>This is an automated confirmation. Please don't reply to this email.</p>
+                <p>If you have urgent questions, please contact me directly at yadurajsingham@gmail.com</p>
+            </div>
+        </div>
+    </body>
+    </html>
+  `;
+};
+
 // Email template
 const createEmailHTML = (data) => {
   return `
@@ -235,9 +327,42 @@ Sent from your portfolio contact form
       `.trim()
     };
     
-    // Send email
+    // Send email to you
     const info = await transporter.sendMail(mailOptions);
     console.log('✅ Email sent successfully:', info.messageId);
+
+    // Send auto-reply confirmation to the user
+    const autoReplyOptions = {
+      from: `"Yaduraj Singh" <${process.env.EMAIL_FROM}>`,
+      to: email,
+      subject: `Thank you for contacting me, ${name}!`,
+      html: createAutoReplyHTML({ name, projectType, budget }),
+      text: `
+Hi ${name},
+
+Thank you for reaching out through my portfolio! I've received your message about "${projectType || 'your project'}" and I'm excited to learn more.
+
+Here's what happens next:
+• I'll review your message within 24 hours
+• I'll get back to you with questions or next steps
+• We can schedule a call to discuss your project in detail
+
+I appreciate you taking the time to contact me, and I look forward to potentially working together!
+
+Best regards,
+Yaduraj Singh
+iOS Developer
+yadurajsingham@gmail.com
+https://yaduraj.me
+
+---
+This is an automated confirmation. Please don't reply to this email.
+      `.trim()
+    };
+
+    // Send auto-reply
+    const autoReplyInfo = await transporter.sendMail(autoReplyOptions);
+    console.log('✅ Auto-reply sent successfully:', autoReplyInfo.messageId);
     
     res.json({
       success: true,
