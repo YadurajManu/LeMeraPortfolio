@@ -35,9 +35,12 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Authentication middleware
 const requireAuth = (req, res, next) => {
+  console.log('🔍 Auth check - Session adminId:', req.session.adminId);
   if (!req.session.adminId) {
+    console.log('❌ No adminId in session, redirecting to login');
     return res.redirect('/login');
   }
+  console.log('✅ Auth passed, proceeding to route');
   next();
 };
 
@@ -93,6 +96,8 @@ app.post('/login', async (req, res) => {
     // Set session
     req.session.adminId = admin.id;
     req.session.adminUsername = admin.username;
+    
+    console.log('🔍 Session set:', { adminId: admin.id, adminUsername: admin.username });
 
     // Update last login
     await supabase
@@ -100,6 +105,7 @@ app.post('/login', async (req, res) => {
       .update({ last_login: new Date().toISOString() })
       .eq('id', admin.id);
 
+    console.log('🔍 Redirecting to dashboard...');
     res.redirect('/dashboard');
   } catch (error) {
     console.error('❌ Login error:', error);
@@ -115,6 +121,8 @@ app.post('/logout', (req, res) => {
 
 // Dashboard
 app.get('/dashboard', requireAuth, async (req, res) => {
+  console.log('🔍 Dashboard route accessed');
+  console.log('🔍 Session data:', { adminId: req.session.adminId, adminUsername: req.session.adminUsername });
   try {
     // Get submissions statistics
     const { data: submissions, error } = await supabase
