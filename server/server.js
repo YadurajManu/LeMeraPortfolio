@@ -27,7 +27,9 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
       'http://localhost:3000',
-      'http://localhost:3001'
+      'http://localhost:3001',
+      'https://www.yaduraj.me',
+      'https://yaduraj.me'
     ];
     
     // Allow requests with no origin (mobile apps, etc.)

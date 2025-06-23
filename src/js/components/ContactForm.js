@@ -9,7 +9,7 @@ class ContactForm {
     // Backend API endpoint - automatically detects environment
     this.apiEndpoint = window.location.hostname === 'localhost' 
       ? 'http://localhost:3001/api/contact'
-      : 'https://your-actual-backend-url.vercel.app/api/contact';
+      : 'https://api.yaduraj.me/api/contact';
     
     if (this.form) {
       this.init();
