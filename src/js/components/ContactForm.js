@@ -1,4 +1,5 @@
 // Contact Form Component - Custom Backend Email Sending
+import { track } from '@vercel/analytics';
 
 class ContactForm {
   constructor() {
@@ -266,6 +267,12 @@ class ContactForm {
       // Send email using custom backend
       await this.submitForm();
       
+      // Track successful form submission
+      track('Contact Form Submitted', {
+        projectType: formData.get('projectType'),
+        budget: formData.get('budget')
+      });
+      
       // Show success state
       this.setSubmitState('success');
       
@@ -462,6 +469,9 @@ class ContactForm {
   }
 
   showCopySuccess(target) {
+    // Track email copy event
+    track('Email Copied');
+    
     const copyButton = target.closest('.method__copy');
     if (copyButton) {
       const originalHTML = copyButton.innerHTML;
