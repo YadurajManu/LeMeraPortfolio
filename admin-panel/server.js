@@ -176,7 +176,7 @@ app.get('/submissions', requireAuth, async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 20;
     const offset = (page - 1) * limit;
-    const status = req.query.status || 'all';
+    const status = req.query.status || '';
     const search = req.query.search || '';
 
     let query = supabase
@@ -185,11 +185,11 @@ app.get('/submissions', requireAuth, async (req, res) => {
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (status !== 'all') {
+    if (status && status !== '') {
       query = query.eq('status', status);
     }
 
-    if (search) {
+    if (search && search !== '') {
       query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`);
     }
 
@@ -199,34 +199,36 @@ app.get('/submissions', requireAuth, async (req, res) => {
       console.error('Database error:', error);
       return res.render('submissions', { 
         submissions: [], 
-        pagination: {},
-        filters: { status, search },
+        totalSubmissions: 0,
+        currentPage: page,
+        totalPages: 0,
+        status: status,
+        search: search,
         error: 'Failed to load submissions' 
       });
     }
 
-    const totalPages = Math.ceil(count / limit);
+    const totalPages = Math.ceil((count || 0) / limit);
 
     res.render('submissions', { 
-      submissions,
-      pagination: {
-        current: page,
-        total: totalPages,
-        hasNext: page < totalPages,
-        hasPrev: page > 1
-      },
-      filters: { status, search },
-      error: null,
-      username: req.admin.username
+      submissions: submissions || [],
+      totalSubmissions: count || 0,
+      currentPage: page,
+      totalPages: totalPages,
+      status: status,
+      search: search,
+      error: null
     });
   } catch (error) {
     console.error('Submissions error:', error);
     res.render('submissions', { 
       submissions: [], 
-      pagination: {},
-      filters: { status: 'all', search: '' },
-      error: 'Failed to load submissions',
-      username: req.admin.username
+      totalSubmissions: 0,
+      currentPage: 1,
+      totalPages: 0,
+      status: '',
+      search: '',
+      error: 'Failed to load submissions'
     });
   }
 });
@@ -246,8 +248,8 @@ app.get('/submission/:id', requireAuth, async (req, res) => {
 
     res.render('submission-detail', { 
       submission,
-      error: null,
-      username: req.admin.username
+      message: req.query.success || null,
+      error: req.query.error || null
     });
   } catch (error) {
     console.error('Submission detail error:', error);
@@ -256,7 +258,7 @@ app.get('/submission/:id', requireAuth, async (req, res) => {
 });
 
 // Update submission status
-app.post('/submission/:id/status', requireAuth, async (req, res) => {
+app.post('/submission/:id/update', requireAuth, async (req, res) => {
   try {
     const { status, notes } = req.body;
     
@@ -264,8 +266,8 @@ app.post('/submission/:id/status', requireAuth, async (req, res) => {
     if (status === 'responded') {
       updateData.responded_at = new Date().toISOString();
     }
-    if (notes) {
-      updateData.admin_notes = notes;
+    if (notes && notes.trim()) {
+      updateData.notes = notes.trim();
     }
 
     const { error } = await supabase
@@ -274,10 +276,41 @@ app.post('/submission/:id/status', requireAuth, async (req, res) => {
       .eq('id', req.params.id);
 
     if (error) {
+      console.error('Update error:', error);
+      return res.redirect(`/submission/${req.params.id}?error=Failed to update submission`);
+    }
+
+    res.redirect(`/submission/${req.params.id}?success=Submission updated successfully`);
+  } catch (error) {
+    console.error('Status update error:', error);
+    res.redirect(`/submission/${req.params.id}?error=Failed to update submission`);
+  }
+});
+
+// Keep backward compatibility for old route
+app.post('/submission/:id/status', requireAuth, async (req, res) => {
+  try {
+    const { status, notes } = req.body;
+    
+    const updateData = { status };
+    if (status === 'responded') {
+      updateData.responded_at = new Date().toISOString();
+    }
+    if (notes && notes.trim()) {
+      updateData.notes = notes.trim();
+    }
+
+    const { error } = await supabase
+      .from('submissions')
+      .update(updateData)
+      .eq('id', req.params.id);
+
+    if (error) {
+      console.error('Update error:', error);
       return res.redirect(`/submission/${req.params.id}?error=Failed to update status`);
     }
 
-    res.redirect(`/submission/${req.params.id}?success=Status updated`);
+    res.redirect(`/submission/${req.params.id}?success=Status updated successfully`);
   } catch (error) {
     console.error('Status update error:', error);
     res.redirect(`/submission/${req.params.id}?error=Failed to update status`);
