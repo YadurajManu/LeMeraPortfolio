@@ -1,5 +1,5 @@
 // Contact Form Component - Custom Backend Email Sending
-import { track } from '@vercel/analytics';
+import { trackContactForm, trackEmailCopy, trackSocialClick } from '../utils/analytics';
 
 class ContactForm {
   constructor() {
@@ -22,6 +22,7 @@ class ContactForm {
     this.initTypingAnimation();
     this.initFormValidation();
     this.initGSAPAnimations();
+    this.initSocialTracking();
   }
 
 
@@ -30,12 +31,29 @@ class ContactForm {
     // Form submission
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     
+    // Track form start
+    let formStarted = false;
+    
     // Real-time validation
     const inputs = this.form.querySelectorAll('.form__input, .form__textarea, .form__select');
     inputs.forEach(input => {
       input.addEventListener('blur', () => this.validateField(input));
       input.addEventListener('input', () => this.clearError(input));
-      input.addEventListener('focus', () => this.handleInputFocus(input));
+      input.addEventListener('focus', (e) => {
+        this.handleInputFocus(input);
+        
+        // Track form start on first interaction
+        if (!formStarted) {
+          formStarted = true;
+          try {
+            trackContactForm('started', {
+              first_field: e.target.name || e.target.id
+            });
+          } catch (error) {
+            console.log('Failed to track form start:', error);
+          }
+        }
+      });
     });
 
     // Copy email functionality
@@ -168,6 +186,34 @@ class ContactForm {
     }
   }
 
+  initSocialTracking() {
+    // Track social media clicks in contact section
+    const socialLinks = document.querySelectorAll('.method__item[href*="linkedin"], .method__item[href*="github"], a[href*="instagram"], a[href*="github"], a[href*="linkedin"]');
+    
+    socialLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href') || '';
+        let platform = 'unknown';
+        
+        if (href.includes('linkedin')) {
+          platform = 'linkedin';
+        } else if (href.includes('github')) {
+          platform = 'github';
+        } else if (href.includes('instagram')) {
+          platform = 'instagram';
+        } else if (href.includes('twitter')) {
+          platform = 'twitter';
+        }
+        
+        try {
+          trackSocialClick(platform, href);
+        } catch (error) {
+          console.log('Failed to track social click:', error);
+        }
+      });
+    });
+  }
+
   validateField(field) {
     const errorElement = document.getElementById(field.name + 'Error');
     let isValid = true;
@@ -272,9 +318,12 @@ class ContactForm {
       
       // Track successful form submission
       try {
-        track('Contact Form Submitted', {
+        trackContactForm('submitted', {
           projectType: formData.get('projectType'),
-          budget: formData.get('budget')
+          budget: formData.get('budget'),
+          name: formData.get('name') ? 'provided' : 'missing',
+          email: formData.get('email') ? 'provided' : 'missing',
+          message_length: formData.get('message')?.length || 0
         });
       } catch (trackError) {
         console.log('Analytics tracking failed:', trackError);
@@ -478,7 +527,7 @@ class ContactForm {
   showCopySuccess(target) {
     // Track email copy event
     try {
-      track('Email Copied');
+      trackEmailCopy('copy_button');
     } catch (trackError) {
       console.log('Analytics tracking failed:', trackError);
     }

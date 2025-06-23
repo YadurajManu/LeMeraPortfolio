@@ -7,17 +7,8 @@ import { mapEach } from "./utils/dom";
 import Time from "./components/Time";
 import ParticleSystem from "./particles";
 import ContactForm from "./components/ContactForm";
-// Vercel Analytics with error handling
-async function initAnalytics() {
-  try {
-    const { inject } = await import("@vercel/analytics");
-    inject();
-  } catch (error) {
-    console.log('Analytics not available:', error);
-  }
-}
-
-initAnalytics();
+// Import comprehensive analytics system
+import analytics, { trackScrollBehavior, trackResumeDownload, trackError } from "./utils/analytics";
 
 // Custom cursor initialization with safety checks
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,6 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
     connectionOpacity: 0.15,
     includeAstronomyElements: true,
     fps: 30 // Limit FPS for better performance
+  });
+
+  // Track resume downloads
+  const resumeButtons = document.querySelectorAll('a[href*="YadurajSingh_Resume.pdf"]');
+  resumeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      trackResumeDownload();
+    });
   });
 });
 
@@ -58,7 +57,17 @@ setTimeout(() => {
   scroll.update();
 }, 1000);
 
-scroll.on("scroll", ScrollTrigger.update);
+scroll.on("scroll", (args) => {
+  ScrollTrigger.update();
+  
+  // Track scroll behavior for analytics
+  try {
+    const scrollProgress = Math.round((args.scroll.y / (args.limit.y || 1)) * 100);
+    trackScrollBehavior('main_page', scrollProgress);
+  } catch (error) {
+    // Silently handle scroll tracking errors
+  }
+});
 
 ScrollTrigger.scrollerProxy(scroll.el, {
   scrollTop(value) {
