@@ -188,7 +188,7 @@ class ContactForm {
 
   initSocialTracking() {
     // Track social media clicks in contact section
-    const socialLinks = document.querySelectorAll('.method__item[href*="linkedin"], .method__item[href*="github"], a[href*="instagram"], a[href*="github"], a[href*="linkedin"]');
+    const socialLinks = document.querySelectorAll('.method__item[href*="linkedin"], .method__item[href*="github"], .method__item[href*="wa.me"], a[href*="instagram"], a[href*="github"], a[href*="linkedin"], a[href*="wa.me"]');
     
     socialLinks.forEach(link => {
       link.addEventListener('click', (e) => {
@@ -203,6 +203,8 @@ class ContactForm {
           platform = 'instagram';
         } else if (href.includes('twitter')) {
           platform = 'twitter';
+        } else if (href.includes('wa.me') || href.includes('whatsapp')) {
+          platform = 'whatsapp';
         }
         
         try {
@@ -353,6 +355,7 @@ class ContactForm {
     const emailData = {
       name: formData.get('name'),
       email: formData.get('email'),
+      company: formData.get('company') || '', // Optional field
       projectType: formData.get('projectType'),
       budget: formData.get('budget'),
       message: formData.get('message')

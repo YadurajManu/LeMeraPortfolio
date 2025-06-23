@@ -1,12 +1,12 @@
 // Contact Section - Matching Website Design
 .home__contact {
   @extend %padding-home;
-  margin-bottom: 6.4rem;
+  margin-bottom: 4.8rem;
   margin-top: -4.8rem;
   position: relative;
 
   @include media("<=phone") {
-    margin-bottom: 4.8rem;
+    margin-bottom: 3.2rem;
     margin-top: -3.2rem;
   }
 }
@@ -139,6 +139,14 @@
   margin-bottom: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  &--optional {
+    color: rgba($col-boulder, 0.6);
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-transform: lowercase;
+    font-style: italic;
+  }
 }
 
 .form__input,
@@ -385,6 +393,18 @@
   &--primary {
     .method__content .method__value {
       color: $col-white;
+    }
+  }
+
+  &--whatsapp {
+    &:hover {
+      .method__icon {
+        color: #25D366; // WhatsApp green
+      }
+      
+      .method__content .method__value {
+        color: #25D366;
+      }
     }
   }
 }
