@@ -217,7 +217,7 @@ app.get('/submissions', requireAuth, async (req, res) => {
       },
       filters: { status, search },
       error: null,
-      username: req.session.adminUsername
+      username: req.admin.username
     });
   } catch (error) {
     console.error('Submissions error:', error);
@@ -226,7 +226,7 @@ app.get('/submissions', requireAuth, async (req, res) => {
       pagination: {},
       filters: { status: 'all', search: '' },
       error: 'Failed to load submissions',
-      username: req.session.adminUsername
+      username: req.admin.username
     });
   }
 });
@@ -247,7 +247,7 @@ app.get('/submission/:id', requireAuth, async (req, res) => {
     res.render('submission-detail', { 
       submission,
       error: null,
-      username: req.session.adminUsername
+      username: req.admin.username
     });
   } catch (error) {
     console.error('Submission detail error:', error);
@@ -327,11 +327,16 @@ app.get('/api/analytics', requireAuth, async (req, res) => {
 
 // Root redirect
 app.get('/', (req, res) => {
-  if (req.session.adminId) {
-    res.redirect('/dashboard');
-  } else {
-    res.redirect('/login');
+  // Check if already logged in
+  const token = req.cookies.admin_token;
+  if (token) {
+    const { verifyToken } = require('./simple-auth');
+    const decoded = verifyToken(token);
+    if (decoded) {
+      return res.redirect('/dashboard');
+    }
   }
+  res.redirect('/login');
 });
 
 // Debug endpoint to check database and admin user
