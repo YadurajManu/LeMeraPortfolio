@@ -128,6 +128,7 @@ const createAutoReplyHTML = (data) => {
                 
                 <div class="project-info">
                     <h4>📋 Your Project Details:</h4>
+                    ${data.company ? `<p><strong>Company/Organization:</strong> ${data.company}</p>` : ''}
                     <p><strong>Project Type:</strong> ${data.projectType || 'Not specified'}</p>
                     <p><strong>Budget Range:</strong> ${data.budget || 'Not specified'}</p>
                 </div>
@@ -212,6 +213,13 @@ const createEmailHTML = (data) => {
                     <p><a href="mailto:${data.email}" style="color: #cb450c; text-decoration: none;">${data.email}</a></p>
                 </div>
                 
+                ${data.company ? `
+                <div class="field">
+                    <strong>Company/Organization:</strong>
+                    <p>${data.company}</p>
+                </div>
+                ` : ''}
+                
                 <div class="field">
                     <strong>Project Type:</strong>
                     <p>${data.projectType}</p>
@@ -285,9 +293,9 @@ const validateContactData = (req, res, next) => {
 // Contact form endpoint
 app.post('/api/contact', validateContactData, async (req, res) => {
   try {
-    const { name, email, projectType, budget, message } = req.body;
+    const { name, email, company, projectType, budget, message } = req.body;
     
-    console.log('📧 New contact form submission:', { name, email, projectType, budget });
+    console.log('📧 New contact form submission:', { name, email, company, projectType, budget });
     
     // Create email transporter
     const transporter = createTransporter();
@@ -310,12 +318,13 @@ app.post('/api/contact', validateContactData, async (req, res) => {
       to: process.env.EMAIL_TO,
       replyTo: email,
       subject: `New Contact from Portfolio - ${name}`,
-      html: createEmailHTML({ name, email, projectType, budget, message }),
+      html: createEmailHTML({ name, email, company, projectType, budget, message }),
       text: `
 New Contact from Portfolio
 
 From: ${name}
-Email: ${email}
+Email: ${email}${company ? `
+Company: ${company}` : ''}
 Project Type: ${projectType || 'Not specified'}
 Budget Range: ${budget || 'Not specified'}
 
@@ -336,7 +345,7 @@ Sent from your portfolio contact form
       from: `"Yaduraj Singh" <${process.env.EMAIL_FROM}>`,
       to: email,
       subject: `Thank you for contacting me, ${name}!`,
-      html: createAutoReplyHTML({ name, projectType, budget }),
+      html: createAutoReplyHTML({ name, company, projectType, budget }),
       text: `
 Hi ${name},
 
