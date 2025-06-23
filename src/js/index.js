@@ -10,6 +10,11 @@ import DitheredBackgroundManager from "./components/DitheredBackgroundManager";
 import ContactForm from "./components/ContactForm";
 // Import comprehensive analytics system
 import analytics, { trackScrollBehavior, trackResumeDownload, trackError } from "./utils/analytics";
+// Import Vercel Speed Insights
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
 
 // Make Three.js available globally
 window.THREE = THREE;
