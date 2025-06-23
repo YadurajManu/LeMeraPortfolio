@@ -267,11 +267,18 @@ class ContactForm {
       // Send email using custom backend
       await this.submitForm();
       
+      // Get form data for tracking
+      const formData = new FormData(this.form);
+      
       // Track successful form submission
-      track('Contact Form Submitted', {
-        projectType: formData.get('projectType'),
-        budget: formData.get('budget')
-      });
+      try {
+        track('Contact Form Submitted', {
+          projectType: formData.get('projectType'),
+          budget: formData.get('budget')
+        });
+      } catch (trackError) {
+        console.log('Analytics tracking failed:', trackError);
+      }
       
       // Show success state
       this.setSubmitState('success');
@@ -470,7 +477,11 @@ class ContactForm {
 
   showCopySuccess(target) {
     // Track email copy event
-    track('Email Copied');
+    try {
+      track('Email Copied');
+    } catch (trackError) {
+      console.log('Analytics tracking failed:', trackError);
+    }
     
     const copyButton = target.closest('.method__copy');
     if (copyButton) {

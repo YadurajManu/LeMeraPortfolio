@@ -7,9 +7,17 @@ import { mapEach } from "./utils/dom";
 import Time from "./components/Time";
 import ParticleSystem from "./particles";
 import ContactForm from "./components/ContactForm";
-import { inject } from "@vercel/analytics";
+// Vercel Analytics with error handling
+async function initAnalytics() {
+  try {
+    const { inject } = await import("@vercel/analytics");
+    inject();
+  } catch (error) {
+    console.log('Analytics not available:', error);
+  }
+}
 
-inject();
+initAnalytics();
 
 // Custom cursor initialization with safety checks
 document.addEventListener('DOMContentLoaded', () => {
@@ -617,18 +625,22 @@ export default class Home {
   }
 
   homeAnimations() {
-    gsap.to(".home__projects__line", { autoAlpha: 1 });
-    gsap.utils.toArray(".home__projects__line").forEach((el) => {
-      const line = el.querySelector("span");
-      gsap.from(line, {
-        duration: 1.5,
-        scrollTrigger: {
-          trigger: el,
-          scroller: "[data-scroll-container]",
-        },
-        scaleX: 0,
+    // Add safety check for GSAP targets
+    const projectLines = gsap.utils.toArray(".home__projects__line");
+    if (projectLines.length > 0) {
+      gsap.to(".home__projects__line", { autoAlpha: 1 });
+      projectLines.forEach((el) => {
+        const line = el.querySelector("span");
+        gsap.from(line, {
+          duration: 1.5,
+          scrollTrigger: {
+            trigger: el,
+            scroller: "[data-scroll-container]",
+          },
+          scaleX: 0,
+        });
       });
-    });
+    }
 
     gsap.utils.toArray("[data-fade-in]").forEach((el) => {
       gsap.from(el, {
