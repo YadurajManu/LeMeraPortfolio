@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submissions - Admin Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border-right: 1px solid rgba(203, 69, 12, 0.2);
+            padding: 2rem 0;
+            z-index: 100;
+        }
+        
+        .logo-section {
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .logo-section h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #cb450c, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo-section p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff;
+            background: rgba(203, 69, 12, 0.1);
+            border-right-color: #cb450c;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: rgba(25, 25, 25, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-title p {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .filters-section {
+            background: rgba(25, 25, 25, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-input, .form-select {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #cb450c;
+            box-shadow: 0 0 0 3px rgba(203, 69, 12, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #cb450c, #ff6b35);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(203, 69, 12, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        
+        .submissions-table {
+            background: rgba(25, 25, 25, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: rgba(203, 69, 12, 0.1);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .submission-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            align-items: center;
+        }
+        
+        .submission-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .submission-row:last-child {
+            border-bottom: none;
+        }
+        
+        .submission-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+        
+        .submission-email {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .submission-company {
+            color: rgba(203, 69, 12, 0.8);
+            font-size: 0.85rem;
+        }
+        
+        .submission-meta {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+        
+        .submission-date {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .status-new {
+            background: rgba(59, 130, 246, 0.1);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .status-responded {
+            background: rgba(34, 197, 94, 0.1);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(203, 69, 12, 0.2);
+            border-color: rgba(203, 69, 12, 0.4);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .pagination-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-btn:hover:not(.disabled) {
+            background: rgba(203, 69, 12, 0.2);
+            border-color: rgba(203, 69, 12, 0.4);
+        }
+        
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-info {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            opacity: 0.3;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .submission-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo-section">
+            <h1>YADURAJ</h1>
+            <p>Admin Portal</p>
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/submissions" class="nav-link active">
+                    <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                    </svg>
+                    Submissions
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <main class="main-content">
+        <header class="header">
+            <div class="header-title">
+                <h1>Submissions</h1>
+                <p>Manage and respond to contact form submissions</p>
+            </div>
+            <div class="user-info">
+                <form action="/logout" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+            </div>
+        </header>
+        
+        <div class="filters-section">
+            <form action="/submissions" method="GET">
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label class="form-label">Search</label>
+                        <input 
+                            type="text" 
+                            name="search" 
+                            class="form-input" 
+                            placeholder="Search by name, email, or company..."
+                            value="<%= filters.search %>"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+                            <option value="all" <%= filters.status === 'all' ? 'selected' : '' %>>All Status</option>
+                            <option value="new" <%= filters.status === 'new' ? 'selected' : '' %>>New</option>
+                            <option value="responded" <%= filters.status === 'responded' ? 'selected' : '' %>>Responded</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                        Filter
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="submissions-table">
+            <div class="table-header">
+                <h2 class="table-title">Contact Submissions</h2>
+            </div>
+            
+            <% if (submissions && submissions.length > 0) { %>
+                <% submissions.forEach(submission => { %>
+                    <div class="submission-row">
+                        <div class="submission-info">
+                            <h4><%= submission.name %></h4>
+                            <div class="submission-email"><%= submission.email %></div>
+                            <% if (submission.company) { %>
+                                <div class="submission-company"><%= submission.company %></div>
+                            <% } %>
+                        </div>
+                        
+                        <div class="submission-meta">
+                            <div><%= submission.project_type || 'No type' %></div>
+                            <div><%= submission.budget || 'No budget' %></div>
+                        </div>
+                        
+                        <div class="submission-date">
+                            <%= new Date(submission.created_at).toLocaleDateString() %>
+                        </div>
+                        
+                        <div>
+                            <span class="status-badge status-<%= submission.status %>">
+                                <%= submission.status %>
+                            </span>
+                        </div>
+                        
+                        <div class="actions">
+                            <a href="/submission/<%= submission.id %>" class="action-btn">View</a>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="empty-state">
+                    <svg class="empty-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"/>
+                    </svg>
+                    <h3>No submissions found</h3>
+                    <p>Try adjusting your search filters</p>
+                </div>
+            <% } %>
+        </div>
+        
+        <% if (pagination && pagination.total > 1) { %>
+            <div class="pagination">
+                <% if (pagination.hasPrev) { %>
+                    <a href="/submissions?page=<%= pagination.current - 1 %>&status=<%= filters.status %>&search=<%= filters.search %>" class="pagination-btn">
+                        ← Previous
+                    </a>
+                <% } else { %>
+                    <span class="pagination-btn disabled">← Previous</span>
+                <% } %>
+                
+                <span class="pagination-info">
+                    Page <%= pagination.current %> of <%= pagination.total %>
+                </span>
+                
+                <% if (pagination.hasNext) { %>
+                    <a href="/submissions?page=<%= pagination.current + 1 %>&status=<%= filters.status %>&search=<%= filters.search %>" class="pagination-btn">
+                        Next →
+                    </a>
+                <% } else { %>
+                    <span class="pagination-btn disabled">Next →</span>
+                <% } %>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html> 

@@ -3,10 +3,23 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { createClient } = require('@supabase/supabase-js');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabasePublic = createClient(supabaseUrl, supabaseAnonKey);
 
 // Security middleware
 app.use(helmet());
@@ -47,9 +60,72 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key-change-this',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Set view engine for admin dashboard
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
 // Apply rate limiting to contact endpoint
 app.use('/api/contact', limiter);
+
+// Authentication middleware
+const requireAuth = (req, res, next) => {
+  if (!req.session.adminId) {
+    return res.redirect('/admin/login');
+  }
+  next();
+};
+
+// Create default admin user if none exists
+const createDefaultAdmin = async () => {
+  try {
+    const { data: admins, error } = await supabase
+      .from('admin_users')
+      .select('*')
+      .limit(1);
+
+    if (error) {
+      console.error('Error checking admin users:', error);
+      return;
+    }
+
+    if (!admins || admins.length === 0) {
+      const defaultPassword = 'admin123'; // Change this!
+      const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+      
+      const { error: insertError } = await supabase
+        .from('admin_users')
+        .insert([
+          {
+            username: 'admin',
+            email: 'admin@yaduraj.me',
+            password_hash: hashedPassword
+          }
+        ]);
+
+      if (insertError) {
+        console.error('Error creating default admin:', insertError);
+      } else {
+        console.log('✅ Default admin created - Username: admin, Password: admin123');
+        console.log('⚠️  Please change the default password after first login!');
+      }
+    }
+  } catch (error) {
+    console.error('Error in createDefaultAdmin:', error);
+  }
+};
 
 // Email transporter configuration
 const createTransporter = () => {
@@ -296,6 +372,35 @@ app.post('/api/contact', validateContactData, async (req, res) => {
     const { name, email, company, projectType, budget, message } = req.body;
     
     console.log('📧 New contact form submission:', { name, email, company, projectType, budget });
+    
+    // Get client IP and user agent for analytics
+    const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+    
+    // Store submission in Supabase database
+    const { data: submissionData, error: dbError } = await supabase
+      .from('submissions')
+      .insert([
+        {
+          name,
+          email,
+          company: company || null,
+          project_type: projectType,
+          budget,
+          message,
+          ip_address: clientIP,
+          user_agent: userAgent,
+          status: 'new'
+        }
+      ])
+      .select();
+
+    if (dbError) {
+      console.error('❌ Database error:', dbError);
+      // Continue with email sending even if database fails
+    } else {
+      console.log('✅ Submission stored in database:', submissionData[0]?.id);
+    }
     
     // Create email transporter
     const transporter = createTransporter();
