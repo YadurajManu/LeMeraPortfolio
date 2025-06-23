@@ -2,7 +2,9 @@ const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const path = require('path');
+const { generateToken, setAuthCookie, clearAuthCookie, requireAuth } = require('./simple-auth');
 require('dotenv').config();
 
 const app = express();
@@ -16,16 +18,19 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'admin-panel-secret-change-this',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie: { 
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    secure: false, // Set to false for now to debug
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'lax'
   }
 }));
 
@@ -33,23 +38,20 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Authentication middleware
-const requireAuth = (req, res, next) => {
-  console.log('🔍 Auth check - Session adminId:', req.session.adminId);
-  if (!req.session.adminId) {
-    console.log('❌ No adminId in session, redirecting to login');
-    return res.redirect('/login');
-  }
-  console.log('✅ Auth passed, proceeding to route');
-  next();
-};
+// Note: requireAuth is now imported from simple-auth.js
 
 // Routes
 
 // Login page
 app.get('/login', (req, res) => {
-  if (req.session.adminId) {
-    return res.redirect('/dashboard');
+  // Check if already logged in
+  const token = req.cookies.admin_token;
+  if (token) {
+    const { verifyToken } = require('./simple-auth');
+    const decoded = verifyToken(token);
+    if (decoded) {
+      return res.redirect('/dashboard');
+    }
   }
   res.render('login', { error: null });
 });
@@ -93,11 +95,11 @@ app.post('/login', async (req, res) => {
 
     console.log('✅ Login successful for user:', username);
 
-    // Set session
-    req.session.adminId = admin.id;
-    req.session.adminUsername = admin.username;
+    // Generate JWT token
+    const token = generateToken(admin);
+    setAuthCookie(res, token);
     
-    console.log('🔍 Session set:', { adminId: admin.id, adminUsername: admin.username });
+    console.log('🔍 Auth token set for user:', username);
 
     // Update last login
     await supabase
@@ -115,14 +117,14 @@ app.post('/login', async (req, res) => {
 
 // Logout
 app.post('/logout', (req, res) => {
-  req.session.destroy();
+  clearAuthCookie(res);
   res.redirect('/login');
 });
 
 // Dashboard
 app.get('/dashboard', requireAuth, async (req, res) => {
   console.log('🔍 Dashboard route accessed');
-  console.log('🔍 Session data:', { adminId: req.session.adminId, adminUsername: req.session.adminUsername });
+  console.log('🔍 Admin data:', { adminId: req.admin.adminId, username: req.admin.username });
   try {
     // Get submissions statistics
     const { data: submissions, error } = await supabase
@@ -155,7 +157,7 @@ app.get('/dashboard', requireAuth, async (req, res) => {
       submissions: submissions.slice(0, 10), // Show latest 10
       stats,
       error: null,
-      username: req.session.adminUsername
+      username: req.admin.username
     });
   } catch (error) {
     console.error('Dashboard error:', error);
@@ -163,7 +165,7 @@ app.get('/dashboard', requireAuth, async (req, res) => {
       submissions: [], 
       stats: {}, 
       error: 'Failed to load dashboard',
-      username: req.session.adminUsername
+      username: req.admin.username
     });
   }
 });
