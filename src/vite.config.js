@@ -7,4 +7,10 @@ export default {
   },
   publicDir: "public",
   envDir: "../",
+  optimizeDeps: {
+    include: ['three']
+  },
+  define: {
+    global: 'globalThis',
+  }
 };

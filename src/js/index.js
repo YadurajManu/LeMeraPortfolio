@@ -5,25 +5,44 @@ import { copyText } from "./utils/index";
 import { mapEach } from "./utils/dom";
 // import Home from "./pages/home";
 import Time from "./components/Time";
-import ParticleSystem from "./particles";
+import * as THREE from "three";
+import DitheredBackgroundManager from "./components/DitheredBackgroundManager";
 import ContactForm from "./components/ContactForm";
 // Import comprehensive analytics system
 import analytics, { trackScrollBehavior, trackResumeDownload, trackError } from "./utils/analytics";
 
-// Custom cursor initialization with safety checks
+// Make Three.js available globally
+window.THREE = THREE;
+
+// Initialize the new dithered background system
+let backgroundManager = null;
+
+// Custom cursor and background initialization with safety checks
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize particle system with theme colors and coding/astronomy elements
-  new ParticleSystem('#particles-canvas', {
-    particleCount: window.innerWidth < 768 ? 40 : 80, // Fewer particles on mobile
-    colors: ['#777777', '#555555', '#cb450c'], // Theme colors - gray and orange
-    maxSize: 3,
-    responsive: true,
-    connectParticles: true,
-    connectionDistance: 150,
-    connectionOpacity: 0.15,
-    includeAstronomyElements: true,
-    fps: 30 // Limit FPS for better performance
-  });
+  console.log('DOM loaded, initializing background...');
+  
+  // Check if Three.js is available
+  if (typeof THREE === 'undefined') {
+    console.error('Three.js is not loaded!');
+    return;
+  }
+  console.log('Three.js version:', THREE.REVISION);
+  
+  // Initialize dithered wave background system
+  try {
+    backgroundManager = new DitheredBackgroundManager();
+    console.log('Dithered background system initialized');
+    
+    // Expose background manager globally for debugging/testing
+    if (typeof window !== 'undefined') {
+      window.backgroundManager = backgroundManager;
+      console.log('Background manager exposed to window.backgroundManager');
+    }
+  } catch (error) {
+    console.error('Failed to initialize dithered background:', error);
+    console.error('Error stack:', error.stack);
+    trackError(error, 'background_initialization');
+  }
 
   // Track resume downloads
   const resumeButtons = document.querySelectorAll('a[href*="YadurajSingh_Resume.pdf"]');
