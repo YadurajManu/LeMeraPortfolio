@@ -6,6 +6,7 @@ import { mapEach } from "./utils/dom";
 // import Home from "./pages/home";
 import Time from "./components/Time";
 import ParticleSystem from "./particles";
+import ContactForm from "./components/ContactForm";
 import { inject } from "@vercel/analytics";
 
 inject();

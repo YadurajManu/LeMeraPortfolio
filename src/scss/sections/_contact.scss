@@ -1,0 +1,493 @@
+// Contact Section - Matching Website Design
+.home__contact {
+  @extend %padding-home;
+  margin-bottom: 6.4rem;
+  margin-top: -4.8rem;
+  position: relative;
+
+  @include media("<=phone") {
+    margin-bottom: 4.8rem;
+    margin-top: -3.2rem;
+  }
+}
+
+.contact__container {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Contact Header
+.contact__header {
+  margin-bottom: 6.4rem;
+  
+  @include media("<=phone") {
+    margin-bottom: 4rem;
+  }
+}
+
+.contact__title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  color: $col-boulder;
+  letter-spacing: -0.08em;
+  margin-bottom: 3.2rem;
+  text-transform: uppercase;
+  font-family: $font-bebas;
+  font-weight: 400;
+  
+  @include media("<=phone") {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 2rem;
+  }
+
+  .typing-text {
+    display: inline-block;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: $col-orange;
+      animation: blink 1s infinite;
+    }
+  }
+}
+
+.contact__subtitle {
+  @extend %description-12;
+  color: $col-boulder;
+  margin-bottom: 2.4rem;
+  text-transform: uppercase;
+  line-height: 1.4;
+  
+  @include media("<=phone") {
+    margin-bottom: 1.6rem;
+  }
+}
+
+.contact__response-time {
+  @extend %description-12;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: $col-boulder;
+  text-transform: uppercase;
+  
+  .response-indicator {
+    width: 6px;
+    height: 6px;
+    background: $col-orange;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+}
+
+// Contact Content Layout
+.contact__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6.4rem;
+  align-items: start;
+
+  @include media("<=tablet") {
+    grid-template-columns: 1fr;
+    gap: 4.8rem;
+  }
+  
+  @include media("<=phone") {
+    gap: 3.2rem;
+  }
+}
+
+// Contact Form
+.contact__form {
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.2rem 2.4rem;
+  margin-bottom: 3.2rem;
+
+  @include media("<=phone") {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+}
+
+.form__group {
+  position: relative;
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+.form__label {
+  @extend %description-12;
+  display: block;
+  color: $col-boulder;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form__input,
+.form__textarea,
+.form__select {
+  width: 100%;
+  padding: 1.6rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid $col-boulder;
+  color: $col-gray;
+  font-size: 1.6rem;
+  font-family: $font-sauce;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  
+  @include media("<=phone") {
+    font-size: 1.4rem;
+    padding: 1.2rem 0;
+  }
+
+  &::placeholder {
+    color: rgba($col-boulder, 0.6);
+    font-size: 1.4rem;
+    
+    @include media("<=phone") {
+      font-size: 1.2rem;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    border-bottom-color: $col-orange;
+    color: $col-white;
+    
+    ~ .form__label {
+      color: $col-orange;
+    }
+  }
+
+  &:valid:not(:placeholder-shown) {
+    border-bottom-color: $col-orange;
+    color: $col-white;
+  }
+
+  &.error {
+    border-bottom-color: #ff4444;
+    color: #ff4444;
+  }
+}
+
+.form__textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: $font-sauce;
+  line-height: 1.4;
+}
+
+// Select Styling
+.form__select-wrapper {
+  position: relative;
+}
+
+.form__select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 2rem;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.form__select-arrow {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: $col-boulder;
+  transition: all 0.3s ease;
+
+  .form__select:focus ~ & {
+    color: $col-orange;
+    transform: translateY(-50%) rotate(180deg);
+  }
+}
+
+// Error Messages
+.form__error {
+  @extend %description-12;
+  display: block;
+  color: #ff4444;
+  margin-top: 0.4rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 1rem;
+
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Submit Button - Matching existing c-button style
+.form__submit {
+  @extend .c-button;
+  width: auto;
+  min-width: 200px;
+  margin-top: 3.2rem;
+  padding: 0.8rem 2.4rem;
+  position: relative;
+  overflow: hidden;
+  
+  @include media("<=phone") {
+    min-width: 160px;
+    padding: 0.6rem 2rem;
+  }
+
+  .submit__text,
+  .submit__loading,
+  .submit__success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: opacity 0.3s ease;
+  }
+
+  .submit__loading,
+  .submit__success {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+
+  &.loading {
+    pointer-events: none;
+    
+    .submit__text {
+      opacity: 0;
+    }
+    
+    .submit__loading {
+      opacity: 1;
+    }
+  }
+
+  &.success {
+    .submit__text,
+    .submit__loading {
+      opacity: 0;
+    }
+    
+    .submit__success {
+      opacity: 1;
+    }
+  }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+// Success Message
+.form__success {
+  display: none;
+  margin-top: 2.4rem;
+  padding: 2.4rem 0;
+  border-top: 1px solid $col-boulder;
+  text-align: left;
+
+  &.show {
+    display: block;
+    animation: slideInUp 0.5s ease;
+  }
+
+  .success__text {
+    h3 {
+      @extend %description-12;
+      color: $col-orange;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    p {
+      @extend %description-12;
+      color: $col-boulder;
+    }
+  }
+}
+
+// Contact Methods - Matching existing layout style
+.contact__methods {
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.methods__title {
+  @extend %description-12;
+  color: $col-boulder;
+  margin-bottom: 2.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.methods__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.method__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid rgba($col-boulder, 0.3);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    .method__content .method__value {
+      color: $col-orange;
+    }
+    
+    .method__copy {
+      border-color: $col-orange;
+      color: $col-orange;
+    }
+  }
+
+  &--primary {
+    .method__content .method__value {
+      color: $col-white;
+    }
+  }
+}
+
+.method__icon {
+  width: 24px;
+  height: 24px;
+  color: $col-boulder;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.method__content {
+  flex: 1;
+
+  .method__label {
+    @extend %description-12;
+    display: block;
+    color: $col-boulder;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1rem;
+  }
+
+  .method__value {
+    @extend %description-12;
+    display: block;
+    color: $col-gray;
+    transition: color 0.3s ease;
+  }
+}
+
+.method__copy {
+  width: 24px;
+  height: 24px;
+  border: 1px solid $col-boulder;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  color: $col-boulder;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  &:hover {
+    border-color: $col-orange;
+    color: $col-orange;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Animations
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba($col-orange, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba($col-orange, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba($col-orange, 0);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+} 

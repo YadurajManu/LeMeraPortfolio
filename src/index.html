@@ -608,52 +608,192 @@
       </section>
 
       <section class="home__contact">
-        <p class="home__contact__desc">
-          Have a project idea or looking for an iOS developer to join your team? 
-          I'm open to freelance work, collaborations, and discussing exciting opportunities.
-        </p>
-        <div class="line-wrapper">
-          <span class="home__projects__line left">
-            <span></span>
-          </span>
-        </div>
-
-        <div class="marquee">
-          <a
-            href="mailto:yadurajsingham@gmail.com?subject=Lets%20work%20together!&body=Hello%2C%20I%20think%20we%20need%20you%20to%20work%20on%2Fcollaborate%20this%20particular%20product...%20Reach%20out%20as%20soon%20as%20you%20can."
-            class="marquee__wrap"
-          >
-            <div class="marquee__inner">
-              <span aria-hidden="true" class="inner-span">
-                <span
-                  class="slide-up"
-                  data-content="LET'S TALK 🚀 — LET'S COLLABORATE 💡 — SAY HELLO 👋 — OPEN TO NEW PROJECTS 💻"
-                  aria-hidden="true"
-                ></span>
-                LET'S TALK 🚀 — LET'S COLLABORATE 💡 — SAY HELLO 👋 — OPEN TO NEW PROJECTS 💻</span
-              >
-              <span class="inner-span">
-                <span
-                  class="slide-up"
-                  data-content="LET'S TALK 🚀 — LET'S COLLABORATE 💡 — SAY HELLO 👋 — OPEN TO NEW PROJECTS 💻"
-                  aria-hidden="true"
-                ></span>
-                LET'S TALK 🚀 — LET'S COLLABORATE 💡 — SAY HELLO 👋 — OPEN TO NEW PROJECTS 💻</span
-              >
+        <div class="contact__container">
+          <!-- Contact Header -->
+          <div class="contact__header">
+            <h2 class="contact__title">
+              <span class="typing-text">Let's Build Something Amazing Together</span>
+            </h2>
+            <p class="contact__subtitle">
+              iOS Developer based in Dehradun, India • Available for remote work worldwide
+            </p>
+            <div class="contact__response-time">
+              <div class="response-indicator"></div>
+              <span>Usually responds within 24 hours</span>
             </div>
-          </a>
-        </div>
+          </div>
 
-        <div class="line-wrapper">
-          <span class="home__projects__line right">
-            <span></span>
-          </span>
-        </div>
+          <!-- Contact Form -->
+          <div class="contact__content">
+            <form class="contact__form" id="contactForm">
+              <div class="form__grid">
+                <!-- Name Field -->
+                <div class="form__group">
+                  <label for="name" class="form__label">Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    class="form__input" 
+                    required
+                    placeholder="Your full name"
+                  >
+                  <span class="form__error" id="nameError"></span>
+                </div>
 
-        <div class="home__contact__email">
-          <button class="email">yadurajsingham@gmail.com</button>
-          <div class="to-copy">
-            <span>📋 Click To Copy Email</span>
+                <!-- Email Field -->
+                <div class="form__group">
+                  <label for="email" class="form__label">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form__input" 
+                    required
+                    placeholder="your.email@example.com"
+                  >
+                  <span class="form__error" id="emailError"></span>
+                </div>
+
+                <!-- Project Type Dropdown -->
+                <div class="form__group">
+                  <label for="projectType" class="form__label">Project Type</label>
+                  <div class="form__select-wrapper">
+                    <select id="projectType" name="projectType" class="form__select" required>
+                      <option value="">Select project type</option>
+                      <option value="ios-app">iOS App Development</option>
+                      <option value="web-development">Web Development</option>
+                      <option value="consultation">Technical Consultation</option>
+                      <option value="ml-project">AI/ML Project</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div class="form__select-arrow">
+                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                        <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <span class="form__error" id="projectTypeError"></span>
+                </div>
+
+                <!-- Budget Range -->
+                <div class="form__group">
+                  <label for="budget" class="form__label">Budget Range</label>
+                  <div class="form__select-wrapper">
+                    <select id="budget" name="budget" class="form__select" required>
+                      <option value="">Select budget range</option>
+                      <option value="under-5k">Under $5,000</option>
+                      <option value="5k-15k">$5,000 - $15,000</option>
+                      <option value="15k-30k">$15,000 - $30,000</option>
+                      <option value="30k-50k">$30,000 - $50,000</option>
+                      <option value="50k-plus">$50,000+</option>
+                      <option value="discuss">Let's discuss</option>
+                    </select>
+                    <div class="form__select-arrow">
+                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                        <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <span class="form__error" id="budgetError"></span>
+                </div>
+              </div>
+
+              <!-- Message Field -->
+              <div class="form__group form__group--full">
+                <label for="message" class="form__label">Project Details</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  class="form__textarea" 
+                  required
+                  placeholder="Tell me about your project, timeline, and any specific requirements..."
+                  rows="6"
+                ></textarea>
+                <span class="form__error" id="messageError"></span>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="form__submit" id="submitBtn">
+                <span class="c-link">
+                  <span class="c-link__inner">
+                    <span class="submit__text">Send Message</span>
+                    <span class="submit__loading">
+                      <svg class="loading-spinner" width="16" height="16" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+                          <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                          <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                        </circle>
+                      </svg>
+                    </span>
+                    <span class="submit__success">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </span>
+                </span>
+              </button>
+
+              <!-- Success Message -->
+              <div class="form__success" id="successMessage">
+                <div class="success__text">
+                  <h3>Message sent successfully!</h3>
+                  <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                </div>
+              </div>
+            </form>
+
+            <!-- Contact Methods -->
+            <div class="contact__methods">
+              <h3 class="methods__title">Other ways to reach me</h3>
+              <div class="methods__grid">
+                <a href="mailto:yadurajsingham@gmail.com" class="method__item method__item--primary">
+                  <div class="method__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2"/>
+                      <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="method__content">
+                    <span class="method__label">Email</span>
+                    <span class="method__value">yadurajsingham@gmail.com</span>
+                  </div>
+                  <div class="method__copy" onclick="copyEmail(event)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                </a>
+
+                <a href="https://www.linkedin.com/in/yaduraj-singh-a3479333a/" target="_blank" rel="noopener noreferrer" class="method__item">
+                  <div class="method__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2"/>
+                      <rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="method__content">
+                    <span class="method__label">LinkedIn</span>
+                    <span class="method__value">Connect with me</span>
+                  </div>
+                </a>
+
+                <a href="https://github.com/YadurajManu" target="_blank" rel="noopener noreferrer" class="method__item">
+                  <div class="method__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 0.297C5.37 0.297 0 5.67 0 12.297C0 17.6 3.438 22.097 8.205 23.682C8.805 23.795 9.025 23.424 9.025 23.105C9.025 22.82 9.015 22.065 9.01 21.065C5.672 21.789 4.968 19.455 4.968 19.455C4.422 18.07 3.633 17.7 3.633 17.7C2.546 16.956 3.717 16.971 3.717 16.971C4.922 17.055 5.555 18.207 5.555 18.207C6.625 20.042 8.364 19.512 9.05 19.205C9.158 18.429 9.467 17.9 9.81 17.6C7.145 17.3 4.344 16.268 4.344 11.67C4.344 10.36 4.809 9.29 5.579 8.45C5.444 8.147 5.039 6.927 5.684 5.274C5.684 5.274 6.689 4.952 8.984 6.504C9.944 6.237 10.964 6.105 11.984 6.099C13.004 6.105 14.024 6.237 14.984 6.504C17.264 4.952 18.269 5.274 18.269 5.274C18.914 6.927 18.509 8.147 18.389 8.45C19.154 9.29 19.619 10.36 19.619 11.67C19.619 16.28 16.814 17.295 14.144 17.59C14.564 17.95 14.954 18.686 14.954 19.81C14.954 21.416 14.939 22.706 14.939 23.096C14.939 23.411 15.149 23.786 15.764 23.666C20.565 22.092 24 17.592 24 12.297C24 5.67 18.627 0.297 12 0.297Z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="method__content">
+                    <span class="method__label">GitHub</span>
+                    <span class="method__value">View my code</span>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
