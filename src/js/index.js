@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Track resume downloads
-  const resumeButtons = document.querySelectorAll('a[href*="YadurajSingh_Resume.pdf"]');
+  const resumeButtons = document.querySelectorAll('a[href*="YadurajSingh_Resume"]');
   resumeButtons.forEach(button => {
     button.addEventListener('click', () => {
       trackResumeDownload();

@@ -109,7 +109,7 @@ class AnalyticsManager {
     try {
       track('resume_download', {
         timestamp: new Date().toISOString(),
-        file_name: 'YadurajSingh_Resume.pdf',
+        file_name: 'YadurajSingh_Resume_2025.pdf',
         source: 'portfolio_website'
       });
     } catch (error) {
