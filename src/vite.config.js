@@ -1,3 +1,5 @@
+import react from '@vitejs/plugin-react'
+
 export default {
   root: "src",
   build: {
@@ -5,6 +7,7 @@ export default {
     emptyOutDir: true,
     assetsDir: "assets",
   },
+  plugins: [react()],
   publicDir: "public",
   envDir: "../",
   optimizeDeps: {

@@ -807,6 +807,11 @@
                 margin-top: 1.6rem;
                 flex-direction: row-reverse;
               }
+              
+              &.coffee-section {
+                margin-top: 1.6rem;
+                justify-content: center;
+              }
             }
           }
         }
@@ -818,6 +823,8 @@
             }
           }
         }
+
+
       }
     }
   }
