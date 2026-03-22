@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const toContactButtons = document.querySelectorAll(".contact-scroll");
+const trackButtons = document.querySelectorAll("[data-track-target]");
 const footer = document.getElementById("js-footer");
 const scrollEl = document.querySelector("[data-scroll-container]");
 const emailButton = document.querySelector("button.email");
@@ -345,9 +346,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Fade in elements with staggered timing for a smoother intro
-    gsap.set([floatingElements, codeSnippet, expertiseWrapper], { 
-      autoAlpha: 0
-    });
+    const heroIntroTargets = [...floatingElements];
+    if (codeSnippet) heroIntroTargets.push(codeSnippet);
+    if (expertiseWrapper) heroIntroTargets.push(expertiseWrapper);
+
+    if (heroIntroTargets.length > 0) {
+      gsap.set(heroIntroTargets, {
+        autoAlpha: 0
+      });
+    }
     
     // Add floating elements with subtle fade in (skip on small mobile for performance)
     if (!isSmallMobile) {
@@ -360,19 +367,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Add expertise section
-    heroTl.to(expertiseWrapper, {
-      autoAlpha: 1,
-      y: 0,
-      duration: isMobile ? 0.6 : 0.8,
-      delay: isMobile ? 0.1 : 0.2
-    }, "-=0.3");
+    if (expertiseWrapper) {
+      heroTl.to(expertiseWrapper, {
+        autoAlpha: 1,
+        y: 0,
+        duration: isMobile ? 0.6 : 0.8,
+        delay: isMobile ? 0.1 : 0.2
+      }, "-=0.3");
+    }
     
     // Add code snippet
-    heroTl.to(codeSnippet, {
-      autoAlpha: 1,
-      y: 0,
-      duration: isMobile ? 0.8 : 1
-    }, "-=0.2");
+    if (codeSnippet) {
+      heroTl.to(codeSnippet, {
+        autoAlpha: 1,
+        y: 0,
+        duration: isMobile ? 0.8 : 1
+      }, "-=0.2");
+    }
     
     // Enhanced parallax on scroll with performance optimizations for mobile
     if (!isSmallMobile) { // Skip heavy animations on small mobile for better performance
@@ -474,53 +485,53 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (morphTexts.length > 0) {
       let currentIndex = 0;
-      
-      const morphText = () => {
-        // Current active text
-        const currentText = morphTexts[currentIndex];
-        
-        // Update current index
+
+      morphTexts.forEach((item, index) => {
+        item.classList.toggle('active', index === 0);
+      });
+
+      if (window.__heroMorphInterval) {
+        clearInterval(window.__heroMorphInterval);
+      }
+
+      window.__heroMorphInterval = setInterval(() => {
+        morphTexts.forEach((item) => item.classList.remove('active'));
         currentIndex = (currentIndex + 1) % morphTexts.length;
-        
-        // Next active text
-        const nextText = morphTexts[currentIndex];
-        
-        // Animate current text out
-        gsap.to(currentText, {
-          opacity: 0,
-          y: -20,
-          duration: isMobile ? 0.3 : 0.4,
-          ease: "power2.in",
-          onComplete: () => {
-            currentText.classList.remove('active');
-            // Immediately position next text
-            gsap.set(nextText, {
-              y: 20,
-              opacity: 0
-            });
-            nextText.classList.add('active');
-            // Animate next text in
-            gsap.to(nextText, {
-              y: 0,
-              opacity: 1,
-              duration: isMobile ? 0.4 : 0.5,
-              ease: "back.out(1.2)"
-            });
-          }
-        });
-      };
-      
-      // Set first item as active initially
-      morphTexts[0].classList.add('active');
-      gsap.set(morphTexts[0], { opacity: 1, y: 0 });
-      
-      // Start the interval (slightly faster for better effect)
-      setInterval(morphText, isMobile ? 2000 : 2500);
+        morphTexts[currentIndex].classList.add('active');
+      }, isMobile ? 1800 : 2200);
     }
   };
   
   // Start the morphing animation
   startMorphingAnimation();
+
+  const startExpertiseRotation = () => {
+    const rotatingItems = document.querySelectorAll('.rotating-text__item');
+
+    if (!rotatingItems.length) return;
+
+    let currentIndex = 0;
+    rotatingItems.forEach((item, index) => {
+      item.classList.toggle('is-active', index === 0);
+    });
+
+    if (window.__expertiseRotateInterval) {
+      clearInterval(window.__expertiseRotateInterval);
+    }
+
+    window.__expertiseRotateInterval = setInterval(() => {
+      rotatingItems.forEach((item) => item.classList.remove('is-active'));
+      currentIndex = (currentIndex + 1) % rotatingItems.length;
+      rotatingItems[currentIndex].classList.add('is-active');
+    }, isMobile ? 1700 : 2200);
+
+    window.addEventListener('beforeunload', () => {
+      if (window.__heroMorphInterval) clearInterval(window.__heroMorphInterval);
+      if (window.__expertiseRotateInterval) clearInterval(window.__expertiseRotateInterval);
+    }, { once: true });
+  };
+
+  startExpertiseRotation();
   
   // Add subtle hover interaction to code snippet
   if (codeSnippet && !isMobile) { // Skip hover effects on mobile
@@ -600,14 +611,35 @@ export default class Home {
       };
     });
 
-    emailButton.addEventListener("click", (e) => {
-      copyText(e);
-      toCopyText.textContent = "copied";
+    mapEach(trackButtons, (button) => {
+      button.onclick = (e) => {
+        const target = button.getAttribute("data-track-target");
+        const section = target ? document.querySelector(target) : null;
 
-      setTimeout(() => {
-        toCopyText.textContent = "Click To Copy";
-      }, 2000);
+        if (!section) {
+          return;
+        }
+
+        e.preventDefault();
+        this.locomotive.scrollTo(section);
+
+        mapEach(trackButtons, (trackButton) => {
+          trackButton.classList.remove("is-active");
+        });
+        button.classList.add("is-active");
+      };
     });
+
+    if (emailButton && toCopyText) {
+      emailButton.addEventListener("click", (e) => {
+        copyText(e);
+        toCopyText.textContent = "copied";
+
+        setTimeout(() => {
+          toCopyText.textContent = "Click To Copy";
+        }, 2000);
+      });
+    }
   }
 
   homeIntro() {

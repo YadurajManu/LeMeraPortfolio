@@ -42,7 +42,7 @@
       content="https://res.cloudinary.com/dmwfd0zhh/image/upload/v1625786788/Portfolio/Frame_5_lchlvc.jpg"
     />
 
-    <script>
+    <script
       type="text/javascript"
       src="//w.24timezones.com/l.js"
       async
@@ -121,8 +121,7 @@
         <div class="hero__title">
           <!-- Mobile title -->
           <h1 class="mobile">
-            iOS <br />
-            <br />
+            iOS + WEB <br />
             DEVELOPER
           </h1>
           
@@ -137,29 +136,15 @@
                 data-scroll-speed="7"
               >
                 <span class="morph-wrapper">
-                  <span class="morph-text active">
-                    <span class="kerned-letter kerned-i">I</span><span class="kerned-letter kerned-o">O</span><span class="kerned-letter">S</span>
-                  </span>
-                  <span class="morph-text">
-                    <span class="kerned-letter">S</span><span class="kerned-letter kerned-w">W</span><span class="kerned-letter">I</span><span class="kerned-letter">F</span><span class="kerned-letter kerned-t">T</span>
-                  </span>
-                  <span class="morph-text">
-                    <span class="kerned-letter">M</span><span class="kerned-letter kerned-o">O</span><span class="kerned-letter">B</span><span class="kerned-letter">I</span><span class="kerned-letter">L</span>
-                  </span>
-                  <span class="morph-text">
-                    <span class="kerned-letter kerned-u">U</span><span class="kerned-letter">I</span><span class="kerned-letter kerned-u">U</span><span class="kerned-letter">X</span>
-                  </span>
+                  <span class="morph-text active">IOS</span>
+                  <span class="morph-text">WEB</span>
+                  <span class="morph-text">APP</span>
+                  <span class="morph-text">API</span>
+                  <span class="morph-text">CLOUD</span>
                 </span>
               </span>
               <span class="hero__title__dash desktop" style="display: none;"></span>
               <span class="hero__title__dash tablet" style="display: none;"></span>
-              <span
-                class="hero__title__right"
-                data-scroll=""
-                data-scroll-direction="horizontal"
-                data-scroll-position="top"
-                data-scroll-speed="-7"
-              ></span>
             </div>
           </h1>
 
@@ -182,45 +167,27 @@
               <div class="bottom__right">
                 <!-- About paragraph -->
                 <p class="hero__paragraph">
-                  <span class="first-word">About</span> &nbsp; I am a developer
-                  based in Dehradun, India specializing in iOS app development,
-                  AI/ML, and frontend web experiences. I focus on creating
-                  interactive and innovative digital solutions, working with various
-                  technologies and frameworks to deliver seamless user experiences
-                  across mobile and web platforms.
+                  <span class="first-word">Focus</span> &nbsp; I build iOS apps and full-stack web products, covering frontend, backend, and deployment with a strong UX-first approach.
                 </p>
+
+                <div class="hero__track-switch" role="navigation" aria-label="Portfolio tracks">
+                  <a class="hero__track-chip is-active" href="#ios-track" data-track-target="#ios-track">iOS Track</a>
+                  <a class="hero__track-chip" href="#web-track" data-track-target="#web-track">Web/Full-Stack Track</a>
+                </div>
                 
                 <!-- Expertise rotating text -->
                 <div class="expertise-wrapper">
-                  <span class="expertise-label">Expert in:</span>
+                  <span class="expertise-label">I Build:</span>
                   <div class="rotating-text">
                     <span class="rotating-text__item">iOS Development</span>
                     <span class="rotating-text__item">Swift & SwiftUI</span>
-                    <span class="rotating-text__item">Machine Learning</span>
-                    <span class="rotating-text__item">Web Animation</span>
-                    <span class="rotating-text__item">Hackathon Projects</span>
+                    <span class="rotating-text__item">Frontend Web Apps</span>
+                    <span class="rotating-text__item">Node.js Backends</span>
+                    <span class="rotating-text__item">Deployment Pipelines</span>
+                    <span class="rotating-text__item">REST APIs & Auth</span>
+                    <span class="rotating-text__item">Database Design</span>
+                    <span class="rotating-text__item">Performance Optimization</span>
                   </div>
-                </div>
-                
-                <!-- Code snippet -->
-                <div class="code-snippet">
-                  <div class="code-header">
-                    <span class="code-dot"></span>
-                    <span class="code-dot"></span>
-                    <span class="code-dot"></span>
-                    <span class="code-title">SwiftUI.swift</span>
-                  </div>
-                  <pre class="code-content"><code><span class="code-keyword">struct</span> <span class="code-class">PortfolioView</span>: <span class="code-class">View</span> {
-    <span class="code-keyword">var</span> <span class="code-property">body</span>: <span class="code-keyword">some</span> <span class="code-class">View</span> {
-        <span class="code-class">VStack</span>(alignment: .<span class="code-property">leading</span>) {
-            <span class="code-class">Text</span>(<span class="code-string">"Hello, I'm Yaduraj"</span>)
-                .<span class="code-property">font</span>(.<span class="code-property">title</span>)
-                .<span class="code-property">fontWeight</span>(.<span class="code-property">bold</span>)
-            <span class="code-class">Text</span>(<span class="code-string">"iOS Developer"</span>)
-                .<span class="code-property">foregroundColor</span>(.<span class="code-property">secondary</span>)
-        }
-    }
-}</code></pre>
                 </div>
                 
                 <!-- Scroll down indicator -->
@@ -361,7 +328,7 @@
         </div>
 
         <!-- iOS Apps Section -->
-        <div class="projects-section" data-section="ios">
+        <div class="projects-section" data-section="ios" id="ios-track">
           <div class="section-header">
             <h2 class="section-title">iOS Applications</h2>
             <p class="section-subtitle">Swift & SwiftUI Projects</p>
@@ -501,7 +468,7 @@
         </div>
 
         <!-- Web Projects Section -->
-        <div class="projects-section" data-section="web">
+        <div class="projects-section" data-section="web" id="web-track">
           <div class="section-header">
             <h2 class="section-title">Web Projects</h2>
             <p class="section-subtitle">Frontend Development</p>
@@ -930,5 +897,5 @@
       </footer>
     </main>
 
-    <script src="js/main.jsx" type="module"></script>
+    <script src="js/index.js" type="module"></script>
   </body>
