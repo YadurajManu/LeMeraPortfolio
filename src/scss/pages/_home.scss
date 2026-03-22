@@ -50,6 +50,16 @@
       }
     }
 
+    .resume-button {
+      &--ios {
+        border-color: rgba($col-orange, 0.5);
+      }
+
+      &--fullstack {
+        border-color: rgba($col-white, 0.34);
+      }
+    }
+
     &__left,
     &__right {
       text-transform: uppercase;
@@ -73,8 +83,11 @@
     }
 
     &__right {
-      max-width: 325px;
+      max-width: 58rem;
       width: 100%;
+      gap: 0.8rem;
+      align-items: flex-start;
+      justify-content: flex-end;
 
       @include media("<=phone") {
         max-width: unset;
@@ -420,6 +433,101 @@
 
   &__projects {
     @extend %padding-home;
+    padding-top: 6.4rem;
+
+    .projects-controls {
+      margin-bottom: 5.6rem;
+      padding: 2rem 2.4rem;
+      border-radius: 1.6rem;
+      border: 1px solid rgba($col-white, 0.1);
+      background: rgba($col-black, 0.48);
+      backdrop-filter: blur(8px);
+    }
+
+    .projects-track-toggle,
+    .projects-filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .projects-track-toggle {
+      margin-bottom: 1.2rem;
+    }
+
+    .projects-track-btn,
+    .projects-filter-chip {
+      @extend %description-12;
+      text-transform: uppercase;
+      border: 1px solid rgba($col-white, 0.22);
+      color: rgba($col-white, 0.76);
+      border-radius: 99px;
+      padding: 0.85rem 1.4rem;
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s, background-color 0.3s;
+    }
+
+    .projects-track-btn.is-active,
+    .projects-filter-chip.is-active {
+      color: $col-white;
+      border-color: rgba($col-orange, 0.82);
+      background: rgba($col-orange, 0.2);
+    }
+
+    .section-header {
+      margin-bottom: 4.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.4rem;
+    }
+
+    .section-title {
+      @extend %description-32;
+      font-size: clamp(3.2rem, 5.8vw, 7.2rem);
+      line-height: 0.94;
+      color: rgba($col-white, 0.92);
+      letter-spacing: -0.03em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .section-subtitle {
+      @extend %description-12;
+      color: rgba($col-white, 0.62);
+      text-transform: uppercase;
+      margin: 0 0 0.8rem;
+    }
+
+    @include media("<=phone") {
+      padding-top: 3.2rem;
+
+      .projects-controls {
+        padding: 1.4rem;
+        margin-bottom: 3.2rem;
+      }
+
+      .projects-track-btn,
+      .projects-filter-chip {
+        padding: 0.75rem 1.1rem;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+
+      .section-title {
+        font-size: clamp(2.4rem, 9vw, 4.2rem);
+      }
+
+      .section-subtitle {
+        margin: 0;
+      }
+    }
 
     &__line {
       position: relative;

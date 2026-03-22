@@ -50,16 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Track resume downloads
-  const resumeButtons = document.querySelectorAll('a[href*="YadurajSingh_Resume"]');
-  resumeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      trackResumeDownload();
+  const resumeButtons = document.querySelectorAll("a[data-resume-type]");
+  resumeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const fileName = button.getAttribute("href") || "resume";
+      trackResumeDownload(fileName);
     });
   });
 });
 
 const toContactButtons = document.querySelectorAll(".contact-scroll");
 const trackButtons = document.querySelectorAll("[data-track-target]");
+const projectTrackButtons = document.querySelectorAll("[data-project-track]");
+const projectFilterButtons = document.querySelectorAll("[data-project-filter]");
+const projectCards = document.querySelectorAll(".home__projects__project[data-categories]");
+const projectSections = document.querySelectorAll(".projects-section");
 const footer = document.getElementById("js-footer");
 const scrollEl = document.querySelector("[data-scroll-container]");
 const emailButton = document.querySelector("button.email");
@@ -93,6 +98,90 @@ scroll.on("scroll", (args) => {
     // Silently handle scroll tracking errors
   }
 });
+
+let activeProjectTrack = "all";
+let activeProjectFilter = "all";
+
+const updateProjectControlsUI = () => {
+  projectTrackButtons.forEach((button) => {
+    button.classList.toggle(
+      "is-active",
+      button.getAttribute("data-project-track") === activeProjectTrack
+    );
+  });
+
+  projectFilterButtons.forEach((button) => {
+    button.classList.toggle(
+      "is-active",
+      button.getAttribute("data-project-filter") === activeProjectFilter
+    );
+  });
+};
+
+const applyProjectVisibility = () => {
+  projectCards.forEach((card) => {
+    const cardTrack = card.getAttribute("data-track") || "all";
+    const categories = (card.getAttribute("data-categories") || "")
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const trackMatch = activeProjectTrack === "all" || cardTrack === activeProjectTrack;
+    const filterMatch =
+      activeProjectFilter === "all" || categories.includes(activeProjectFilter);
+    const isVisible = trackMatch && filterMatch;
+
+    card.style.display = isVisible ? "" : "none";
+    card.classList.toggle("is-filtered-out", !isVisible);
+  });
+
+  projectSections.forEach((section) => {
+    const sectionTrack = section.getAttribute("data-track") || "all";
+    const sectionTrackMatch =
+      activeProjectTrack === "all" || sectionTrack === activeProjectTrack;
+    const visibleCard = section.querySelector(
+      '.home__projects__project[data-categories]:not(.is-filtered-out)'
+    );
+
+    section.style.display = sectionTrackMatch && visibleCard ? "" : "none";
+  });
+
+  setTimeout(() => {
+    scroll.update();
+  }, 120);
+};
+
+const bindProjectControls = () => {
+  if (!projectTrackButtons.length || !projectFilterButtons.length) return;
+
+  projectTrackButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeProjectTrack = button.getAttribute("data-project-track") || "all";
+      activeProjectFilter = "all";
+      updateProjectControlsUI();
+      applyProjectVisibility();
+
+      const firstVisibleSection = Array.from(projectSections).find(
+        (section) => section.style.display !== "none"
+      );
+      if (firstVisibleSection) {
+        scroll.scrollTo(firstVisibleSection);
+      }
+    });
+  });
+
+  projectFilterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeProjectFilter = button.getAttribute("data-project-filter") || "all";
+      updateProjectControlsUI();
+      applyProjectVisibility();
+    });
+  });
+
+  updateProjectControlsUI();
+  applyProjectVisibility();
+};
+
+bindProjectControls();
 
 ScrollTrigger.scrollerProxy(scroll.el, {
   scrollTop(value) {

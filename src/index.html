@@ -98,15 +98,32 @@
             </span>
           </button>
           
-          <a href="/Resume.pdf" class="nav__button c-button resume-button" nav-anim target="_blank" rel="noopener">
+          <a href="/Resume_iOS.pdf" class="nav__button c-button resume-button resume-button--ios" data-resume-type="ios" nav-anim target="_blank" rel="noopener">
             <span class="c-link">
               <span class="c-link__inner">
-                <span> resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <span> iOS resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 16L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M9 13L12 16L15 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M8 20H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg> </span>
-                <span class="c-link__animated"> resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <span class="c-link__animated"> iOS resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 16L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 13L12 16L15 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 20H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> </span>
+              </span>
+            </span>
+          </a>
+
+          <a href="/Resume_Web.pdf" class="nav__button c-button resume-button resume-button--fullstack" data-resume-type="web" nav-anim target="_blank" rel="noopener">
+            <span class="c-link">
+              <span class="c-link__inner">
+                <span> web resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 16L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 13L12 16L15 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 20H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> </span>
+                <span class="c-link__animated"> web resume <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 16L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M9 13L12 16L15 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M8 20H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -253,15 +270,31 @@
       </section>
 
       <section class="home__projects">
+        <div class="projects-controls" id="projects-controls">
+          <div class="projects-track-toggle" role="tablist" aria-label="Project tracks">
+            <button class="projects-track-btn is-active" data-project-track="all" type="button">All Projects</button>
+            <button class="projects-track-btn" data-project-track="ios" type="button">iOS Projects</button>
+            <button class="projects-track-btn" data-project-track="web" type="button">Web Projects</button>
+          </div>
+          <div class="projects-filter-chips" role="toolbar" aria-label="Project filters">
+            <button class="projects-filter-chip is-active" data-project-filter="all" type="button">All</button>
+            <button class="projects-filter-chip" data-project-filter="ios" type="button">iOS</button>
+            <button class="projects-filter-chip" data-project-filter="web" type="button">Web</button>
+            <button class="projects-filter-chip" data-project-filter="fullstack" type="button">Full-Stack</button>
+            <button class="projects-filter-chip" data-project-filter="backend" type="button">Backend</button>
+            <button class="projects-filter-chip" data-project-filter="deployment" type="button">Deployment</button>
+          </div>
+        </div>
+
         <!-- Top Projects Section -->
-        <div class="projects-section" data-section="top">
+        <div class="projects-section" data-section="top" data-track="ios">
           <div class="section-header">
             <h2 class="section-title">Top Projects</h2>
             <p class="section-subtitle">Featured Work</p>
           </div>
 
           <!-- MaaKosh App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -294,7 +327,7 @@
           </div>
 
           <!-- Bolonyay App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -328,14 +361,14 @@
         </div>
 
         <!-- iOS Apps Section -->
-        <div class="projects-section" data-section="ios" id="ios-track">
+        <div class="projects-section" data-section="ios" id="ios-track" data-track="ios">
           <div class="section-header">
             <h2 class="section-title">iOS Applications</h2>
             <p class="section-subtitle">Swift & SwiftUI Projects</p>
           </div>
 
           <!-- Cupid App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -368,7 +401,7 @@
           </div>
 
           <!-- Medi App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -401,7 +434,7 @@
           </div>
 
           <!-- Drona App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -434,7 +467,7 @@
           </div>
 
           <!-- AazKiTazaKhabar App -->
-          <div class="home__projects__project">
+          <div class="home__projects__project" data-track="ios" data-categories="ios">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
@@ -468,42 +501,162 @@
         </div>
 
         <!-- Web Projects Section -->
-        <div class="projects-section" data-section="web" id="web-track">
+        <div class="projects-section" data-section="web" id="web-track" data-track="web">
           <div class="section-header">
-            <h2 class="section-title">Web Projects</h2>
-            <p class="section-subtitle">Frontend Development</p>
+            <h2 class="section-title">Web / Full-Stack Projects</h2>
+            <p class="section-subtitle">SaaS • Realtime • Deployment</p>
           </div>
 
-          <!-- HackfedYadu -->
-          <div class="home__projects__project">
+          <!-- Aarogya Setu -->
+          <div class="home__projects__project" data-track="web" data-categories="web fullstack backend deployment">
             <div class="home__projects__project__label">
               <div class="label__inner">
                 <p>
-                  WEB / <br />
-                  FRONTEND
+                  FULL-STACK / <br />
+                  SAAS
                 </p>
               </div>
             </div>
 
-            <a href="https://github.com/YadurajManu/HackfedYadu" target="_blank" rel="noopener noreferrer" class="home__projects__project__link">
+            <a href="https://arogya.yaduraj.me" target="_blank" rel="noopener noreferrer" class="home__projects__project__link">
               <h1 class="home__projects__project__title" data-scroll="" data-scroll-direction="horizontal" data-scroll-speed="8">
                 <span class="inline-ovh">
                   <div class="title__main right">
-                    <span class="slide-up" data-content="HACKFEDYADU — WEB DEVELOPMENT" aria-hidden="true"></span>
-                    HACKFEDYADU — WEB DEVELOPMENT
+                    <span class="slide-up" data-content="AAROGYA SETU — MULTI-TENANT HOSPITAL SAAS" aria-hidden="true"></span>
+                    AAROGYA SETU — MULTI-TENANT HOSPITAL SAAS
                   </div>
                 </span>
               </h1>
             </a>
 
+            <div class="project__details">
+              <ul class="project__details__list">
+                <li>Production-grade multi-tenant hospital automation platform: OPD/IPD queues, EMR, appointments, billing, pharmacy inventory, diagnostics, and staff administration.</li>
+                <li>Architecture: Next.js 14 App Router, TypeScript, Prisma ORM, PostgreSQL, Redis, NextAuth.js (JWT + OAuth2), with 6-tier RBAC and route/API-level permission guards.</li>
+                <li>Containerized with Docker + Docker Compose and GitHub Actions CI/CD (lint -> test -> build -> SSH deploy); self-hosted on Linux with Nginx, SSL (Certbot), and systemd.</li>
+              </ul>
+              <div class="project__stack">
+                <span class="stack__pill">Next.js 14</span>
+                <span class="stack__pill">TypeScript</span>
+                <span class="stack__pill">Prisma</span>
+                <span class="stack__pill">PostgreSQL</span>
+                <span class="stack__pill">Redis</span>
+                <span class="stack__pill">NextAuth.js</span>
+                <span class="stack__pill">Docker</span>
+                <span class="stack__pill">GitHub Actions</span>
+                <span class="stack__pill">Nginx</span>
+              </div>
+              <div class="project__actions">
+                <a href="https://github.com/YadurajManu/NoneOfYourBuisness" target="_blank" rel="noopener noreferrer" class="project__action-link">GitHub</a>
+                <a href="https://arogya.yaduraj.me" target="_blank" rel="noopener noreferrer" class="project__action-link">Live</a>
+              </div>
+            </div>
+
             <div class="project__link">
-              <a href="https://github.com/YadurajManu/HackfedYadu" target="_blank" rel="noopener noreferrer" class="c-button">
+              <a href="https://github.com/YadurajManu/NoneOfYourBuisness" target="_blank" rel="noopener noreferrer" class="c-button">
                 <span class="c-link">
                   <span class="c-link__inner">
                     <span>View Project<span class="share-icon"><svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.337 7.845l-7.173 7.173-1.178-1.179 7.172-7.172H5.837V5h9.166v9.167h-1.666V7.845z" fill="#777"/></svg></span></span>
                   </span>
                 </span>
               </a>
+            </div>
+          </div>
+
+          <!-- MuhDikhai -->
+          <div class="home__projects__project" data-track="web" data-categories="web fullstack backend deployment">
+            <div class="home__projects__project__label">
+              <div class="label__inner">
+                <p>
+                  REALTIME / <br />
+                  WEBRTC
+                </p>
+              </div>
+            </div>
+
+            <a href="https://batchit.yaduraj.me" target="_blank" rel="noopener noreferrer" class="home__projects__project__link">
+              <h1 class="home__projects__project__title" data-scroll="" data-scroll-direction="horizontal" data-scroll-speed="-8">
+                <span class="inline-ovh">
+                  <div class="title__main left">
+                    <span class="slide-up" data-content="MUHDIKHAI — PEER-TO-PEER VIDEO CHAT PLATFORM" aria-hidden="true"></span>
+                    MUHDIKHAI — PEER-TO-PEER VIDEO CHAT PLATFORM
+                  </div>
+                </span>
+              </h1>
+            </a>
+
+            <div class="project__details">
+              <ul class="project__details__list">
+                <li>Built a full anonymous Omegle-style video chat platform with manual WebRTC lifecycle implementation (offer/answer/ICE) over a custom Socket.io signaling server.</li>
+                <li>Stateful matchmaking queue targets sub-2-second stranger pairing with concurrent-session handling, graceful disconnect flow, and reconnection logic.</li>
+                <li>Deployed live on VPS infrastructure with Nginx reverse proxy and SSL termination.</li>
+              </ul>
+              <div class="project__stack">
+                <span class="stack__pill">WebRTC</span>
+                <span class="stack__pill">Socket.io</span>
+                <span class="stack__pill">Node.js</span>
+                <span class="stack__pill">Realtime Queueing</span>
+                <span class="stack__pill">VPS Deploy</span>
+                <span class="stack__pill">Nginx</span>
+                <span class="stack__pill">SSL</span>
+              </div>
+              <div class="project__actions">
+                <a href="https://github.com/YaduEnc/MuhDikhai" target="_blank" rel="noopener noreferrer" class="project__action-link">GitHub</a>
+                <a href="https://batchit.yaduraj.me" target="_blank" rel="noopener noreferrer" class="project__action-link">Live</a>
+              </div>
+            </div>
+
+            <div class="project__link">
+              <a href="https://github.com/YaduEnc/MuhDikhai" target="_blank" rel="noopener noreferrer" class="c-button">
+                <span class="c-link">
+                  <span class="c-link__inner">
+                    <span>View Project<span class="share-icon"><svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.337 7.845l-7.173 7.173-1.178-1.179 7.172-7.172H5.837V5h9.166v9.167h-1.666V7.845z" fill="#777"/></svg></span></span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- CineVerse -->
+          <div class="home__projects__project" data-track="web" data-categories="web fullstack deployment">
+            <div class="home__projects__project__label">
+              <div class="label__inner">
+                <p>
+                  SOCIAL / <br />
+                  PLATFORM
+                </p>
+              </div>
+            </div>
+
+            <a href="https://cine.yaduraj.me" target="_blank" rel="noopener noreferrer" class="home__projects__project__link">
+              <h1 class="home__projects__project__title" data-scroll="" data-scroll-direction="horizontal" data-scroll-speed="8">
+                <span class="inline-ovh">
+                  <div class="title__main right">
+                    <span class="slide-up" data-content="CINEVERSE — SOCIAL FILM TRACKING PLATFORM" aria-hidden="true"></span>
+                    CINEVERSE — SOCIAL FILM TRACKING PLATFORM
+                  </div>
+                </span>
+              </h1>
+            </a>
+
+            <div class="project__details">
+              <ul class="project__details__list">
+                <li>Production social platform for cinema enthusiasts: watchlists, ratings, reviews, discovery feeds, and real-time community interactions.</li>
+                <li>Integrated TMDB API dataset (500k+ titles); built with Next.js frontend (SSR) and Firebase backend stack (Firestore, Auth, Cloud Storage).</li>
+                <li>Self-hosted on Linux using Nginx and PM2 with zero-downtime reload strategy and uptime monitoring.</li>
+              </ul>
+              <div class="project__stack">
+                <span class="stack__pill">Next.js</span>
+                <span class="stack__pill">SSR</span>
+                <span class="stack__pill">Firebase</span>
+                <span class="stack__pill">Firestore</span>
+                <span class="stack__pill">TMDB API</span>
+                <span class="stack__pill">PM2</span>
+                <span class="stack__pill">Nginx</span>
+              </div>
+              <div class="project__actions">
+                <a href="https://cine.yaduraj.me" target="_blank" rel="noopener noreferrer" class="project__action-link">Live</a>
+              </div>
             </div>
           </div>
         </div>

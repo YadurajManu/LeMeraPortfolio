@@ -103,13 +103,13 @@ class AnalyticsManager {
   }
 
   // Track resume download
-  trackResumeDownload() {
+  trackResumeDownload(fileName = 'resume.pdf') {
     if (!this.isInitialized) return;
 
     try {
       track('resume_download', {
         timestamp: new Date().toISOString(),
-        file_name: 'YadurajSingh_Resume_2025.pdf',
+        file_name: fileName,
         source: 'portfolio_website'
       });
     } catch (error) {
@@ -385,7 +385,7 @@ export default analytics;
 export const trackContactForm = (action, data) => analytics.trackContactForm(action, data);
 export const trackEmailCopy = (method) => analytics.trackEmailCopy(method);
 export const trackScrollBehavior = (section, percentage) => analytics.trackScrollBehavior(section, percentage);
-export const trackResumeDownload = () => analytics.trackResumeDownload();
+export const trackResumeDownload = (fileName) => analytics.trackResumeDownload(fileName);
 export const trackNavigation = (destination, source) => analytics.trackNavigation(destination, source);
 export const trackSocialClick = (platform, url) => analytics.trackSocialClick(platform, url);
 export const trackError = (error, context) => analytics.trackError(error, context); 
