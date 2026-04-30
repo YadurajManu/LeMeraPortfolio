@@ -6,6 +6,7 @@ export default {
     outDir: "../dist",
     emptyOutDir: true,
     assetsDir: "assets",
+    sourcemap: true,
   },
   plugins: [react()],
   publicDir: "public",
