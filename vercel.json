@@ -2,6 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "toolbar": false,
   "headers": [
     {
       "source": "/app-ads.txt",
