@@ -1,0 +1,29 @@
+fleet: homelab
+
+services:
+  lemeraportfolio:
+    build: .
+    placement: flexible
+    container_port: 80
+    resources: { ram: 512Mi, cpu: 0.5 }
+    health: { path: / }
+
+  admin-panel:
+    build: ./admin-panel
+    placement: flexible
+    container_port: 3000
+    resources: { ram: 512Mi, cpu: 0.5 }
+
+  server:
+    build: ./server
+    placement: flexible
+    container_port: 3000
+    resources: { ram: 512Mi, cpu: 0.5 }
+    health: { path: /api/health }
+    uses: [db]
+
+databases:
+  db:
+    engine: mongo
+    node: sayyestoheaven
+    backup: daily

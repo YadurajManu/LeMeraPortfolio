@@ -14,7 +14,8 @@
   "devDependencies": {
     "sass": "^1.99.0",
     "sass-embedded": "^1.99.0",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "vite-plugin-css-injected-by-js": "^5.0.1"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
